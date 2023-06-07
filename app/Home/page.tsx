@@ -1,18 +1,20 @@
 'use client';
-import Card from '@/components/home/card';
 import Balancer from 'react-wrap-balancer';
 import { DEPLOY_URL } from '@/lib/constants';
-import { Github, Twitter } from '@/components/shared/icons';
-import WebVitals from '@/components/home/web-vitals';
-import ComponentGrid from '@/components/home/component-grid';
 import Image from 'next/image';
 import { nFormatter } from '@/lib/utils';
-import { Button } from 'antd';
+import { Badge, Button } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { HomeCard, HomeCardModel } from '@/components/home/card';
+import { LuCat } from 'react-icons/lu';
+import { AiOutlineRightCircle } from 'react-icons/ai';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+
 export default function HomePage () {
   const SwiperStyle: any = {
     '--swiper-navigation-color': '#fff',
@@ -23,12 +25,13 @@ export default function HomePage () {
     <>
       <div className='z-10 w-full max-w-xl px-5 xl:px-0'>
         <a
-          href='https://twitter.com/steventey/status/1613928948915920896'
+          href='https://github.com/kjjkjjzyayufqza'
           target='_blank'
           rel='noreferrer'
           className='animate-fade-up mx-auto mb-5 flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-colors hover:bg-blue-200'
         >
-          <Twitter className='h-5 w-5 text-[#1d9bf0]' />
+          {/* <Twitter className='h-5 w-5 text-[#1d9bf0]' /> */}
+          <LuCat className='h-5 w-5 text-[#1d9bf0]' />
           <p className='text-sm font-semibold text-[#1d9bf0]'>
             The Pet Shelter
           </p>
@@ -50,7 +53,8 @@ export default function HomePage () {
           </Balancer>
         </p>
       </div>
-      <div className='z-10 mt-24 w-full px-5 md:max-w-7xl xl:px-0'>
+      {/* <div className='z-10 mt-24 w-full px-5 md:max-w-7xl xl:px-0'> */}
+      <div className='md:max-w-8xl z-10 mt-24 w-full px-5 xl:px-0'>
         <Swiper
           style={SwiperStyle}
           spaceBetween={0}
@@ -67,17 +71,20 @@ export default function HomePage () {
           loop={true}
         >
           <SwiperSlide>
-            <img src={'/cat1_.jpg'} alt={''} className='w-full'></img>
+            <img className='w-full' src='/cat1.jpg'></img>
           </SwiperSlide>
           <SwiperSlide>
             <img src={'/cat2.jpg'} alt={''} className='w-full'></img>
           </SwiperSlide>
           <SwiperSlide>
-            <img src={'/cat1_.jpg'} alt={''} className='w-full'></img>
+            <img src={'/cat1.jpg'} alt={''} className='w-full'></img>
           </SwiperSlide>
         </Swiper>
+      </div>
+
+      <div className='z-10 w-full max-w-xl px-5 xl:px-0'>
         <p
-          className='animate-fade-up text-center text-gray-500 opacity-0 md:text-xl mt-20'
+          className='animate-fade-up mt-20 text-center text-gray-500 opacity-0 md:text-xl'
           style={{ animationDelay: '0.25s', animationFillMode: 'forwards' }}
         >
           <Balancer>
@@ -91,54 +98,25 @@ export default function HomePage () {
           style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
         >
           <a
-            className='group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black'
-            href={DEPLOY_URL}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <svg
-              className='h-4 w-4 group-hover:text-black'
-              viewBox='0 0 24 24'
-              fill='currentColor'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M12 4L20 20H4L12 4Z'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-            </svg>
-            <p>Want to adopt</p>
-          </a>
-          <a
             className='flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800'
             href='https://github.com/steven-tey/precedent'
             target='_blank'
             rel='noopener noreferrer'
           >
-            <Github />
+            <LuCat className='h-5 w-5 text-[#000000]' />
             <p>
               <span className='hidden sm:inline-block'>More Information</span>
             </p>
           </a>
         </div>
       </div>
-
-      <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0'>
+      <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-4 xl:px-0'>
         {features.map(({ title, description, demo, large }) => (
-          <Card
+          <HomeCard
             key={title}
             title={title}
             description={description}
-            demo={
-              title === 'Beautiful, reusable components' ? (
-                <ComponentGrid />
-              ) : (
-                demo
-              )
-            }
+            demo={title === 'Beautiful, reusable components' ? <></> : demo}
             large={large}
           />
         ))}
@@ -147,59 +125,86 @@ export default function HomePage () {
   );
 }
 
-const features = [
+const features: HomeCardModel[] = [
   {
-    title: 'Beautiful, reusable components',
-    description:
-      'Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)',
+    title: 'Cat for adoption',
+    description: 'These cats need your [HELP]()',
+    demo: (
+      <>
+        <Image
+          src='/card_cat1.jpg'
+          width={250}
+          height={250}
+          alt=''
+          className='rounded-2xl'
+        ></Image>
+      </>
+    ),
+    large: true,
+  },
+
+  {
+    title: 'All Cat',
+    description: 'View all Cats or Find Cats',
+    demo: (
+      <>
+        <Image
+          src='/fake_cats.jpg'
+          width={250}
+          height={250}
+          alt=''
+          className='rounded-lg'
+        ></Image>
+      </>
+    ),
     large: true,
   },
   {
-    title: 'Performance first',
-    description:
-      'Built on [Next.js](https://nextjs.org/) primitives like `@next/font` and `next/image` for stellar performance.',
-    demo: <WebVitals />,
+    title: 'News',
+    description: 'Get the latest `Adoption Information`',
+    demo: (
+      <>
+        <Badge count={25}>
+          <Image
+            src='/Grin2B_icon_NEWS.png'
+            width={150}
+            height={250}
+            alt=''
+            className='rounded-lg'
+          ></Image>
+        </Badge>
+      </>
+    ),
+    large: true,
   },
   {
-    title: 'One-click Deploy',
-    description:
-      'Jumpstart your next project by deploying Precedent to [Vercel](https://vercel.com/) in one click.',
+    title: 'Join Us',
+    description: 'Become a `Member` of the Association',
     demo: (
-      <a href={DEPLOY_URL}>
+      <>
         <Image
-          src='https://vercel.com/button'
-          alt='Deploy with Vercel'
-          width={120}
-          height={30}
-          unoptimized
-        />
-      </a>
+          src='/join-us-banner-free-vector.jpg'
+          width={500}
+          height={500}
+          alt=''
+          className='rounded-lg'
+        ></Image>
+      </>
     ),
   },
   {
-    title: 'Built-in Auth + Database',
-    description:
-      'Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)',
+    title: 'About Us',
+    description: 'Who We Are ?',
     demo: (
-      <div className='flex items-center justify-center space-x-20'>
-        <Image alt='Auth.js logo' src='/authjs.webp' width={50} height={50} />
-        <Image alt='Prisma logo' src='/prisma.svg' width={50} height={50} />
-      </div>
-    ),
-  },
-  {
-    title: 'Hooks, utilities, and more',
-    description:
-      'Precedent offers a collection of hooks, utilities, and `@vercel/og`',
-    demo: (
-      <div className='grid grid-flow-col grid-rows-3 gap-10 p-10'>
-        <span className='font-mono font-semibold'>useIntersectionObserver</span>
-        <span className='font-mono font-semibold'>useLocalStorage</span>
-        <span className='font-mono font-semibold'>useScroll</span>
-        <span className='font-mono font-semibold'>nFormatter</span>
-        <span className='font-mono font-semibold'>capitalize</span>
-        <span className='font-mono font-semibold'>truncate</span>
-      </div>
+      <>
+        <Image
+          src='/logo.png'
+          width={100}
+          height={250}
+          alt=''
+          className='rounded-lg'
+        ></Image>
+      </>
     ),
   },
 ];
