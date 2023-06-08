@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
+  reactStrictMode: true,
+  swcMinify: true,
   images: {
-    loader: "imgix",
-    path: "/",
+    domains: ["lh3.googleusercontent.com", "vercel.com"],
   },
-  reactStrictMode: false,
 };
 
 module.exports = nextConfig;
