@@ -16,19 +16,19 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn ({ user, account, profile, email, credentials }) {
-      console.log('signIn');
+      // console.log('signIn');
       return true;
     },
     async redirect ({ url, baseUrl }) {
-      console.log('redirect');
+      // console.log('redirect');
       return baseUrl;
     },
     async session ({ session, user, token }) {
-      console.log('session');
+      // console.log('session');
       return session;
     },
     async jwt ({ token, user, account, profile, isNewUser }) {
-      console.log('jwt');
+      // console.log('jwt');
       return token;
     },
   },
