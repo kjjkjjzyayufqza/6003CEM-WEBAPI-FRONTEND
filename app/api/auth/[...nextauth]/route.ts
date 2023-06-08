@@ -9,10 +9,10 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/auth/dashbaord', // on successfully signin
-    signOut: '/auth/login', // on signout redirects users to a custom login page.
-    error: '/auth/error', // displays authentication errors
-    newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
+    // signIn: '/auth/dashbaord', // on successfully signin
+    // signOut: '/auth/login', // on signout redirects users to a custom login page.
+    // error: '/auth/error', // displays authentication errors
+    // newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   callbacks: {
     async signIn ({ user, account, profile, email, credentials }) {
