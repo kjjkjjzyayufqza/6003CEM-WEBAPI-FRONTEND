@@ -71,7 +71,7 @@ export default function HomePage () {
           loop={true}
         >
           <SwiperSlide>
-            <img className='w-full' src='/cat1.jpg'></img>
+            <img className='w-full' alt={''} src='/cat1.jpg'></img>
           </SwiperSlide>
           <SwiperSlide>
             <img src={'/cat2.jpg'} alt={''} className='w-full'></img>
