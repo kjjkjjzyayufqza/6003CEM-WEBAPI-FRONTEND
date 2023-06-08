@@ -45,12 +45,6 @@ export default () => {
       <div>
         <QueryFilter
           labelWidth='auto'
-          trigger={
-            <Button type='primary'>
-              <PlusOutlined />
-              新建表单
-            </Button>
-          }
           onFinish={async (values: any) => {
             await waitTime(2000);
             console.log(values);
