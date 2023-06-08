@@ -12,7 +12,7 @@ export default function NavBar ({ session }: { session: Session | null }) {
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
   useEffect(() => {
-    // console.log(session)
+    console.log(session)
   }, []);
   return (
     <>
@@ -27,7 +27,7 @@ export default function NavBar ({ session }: { session: Session | null }) {
         <div className='mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto'>
           <Link href='/' className='font-display flex items-center text-2xl'>
             <Image
-              src='/logo.png'
+              src='/cat.png'
               alt='Precedent logo'
               width='30'
               height='30'
