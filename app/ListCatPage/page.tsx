@@ -1,56 +1,37 @@
 'use client';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Pagination, Row } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { useEffect } from 'react';
 import { HeartTwoTone } from '@ant-design/icons';
 import FilterBox from './FilterBox';
+import { CatCard } from '@/components/CatCard';
 export default function ListCatPage () {
+  const a = [1, 2, 3, 4, 5, 6, 7, 8,];
   useEffect(() => {}, []);
   return (
-    <>
-      <div className='w-full max-w-xl px-5 xl:px-0 '>
+    <div>
+      <h1 className='mb-20 text-center text-5xl font-bold'>待領養動物</h1>
+      <p className='mb-5 text-center'>
+        一次領養，拯救兩個生命。
+        每有一隻幸運的動物離開我們的領養中心，便能空出一個位置，讓另一隻動物可以在中心等待尋找新家！
+      </p>
+      <div className='w-full'>
         <FilterBox />
       </div>
       <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-4 xl:px-0'>
-        <Card
-          className='card bg-base-100 overflow-hidden shadow-md'
-          hoverable
-          cover={
-            <img
-              alt='example'
-              src='https://cdn2.thecatapi.com/images/MTU3Njg1Mg.jpg'
-              className='transition delay-150 duration-300 ease-in-out hover:-translate-y-0 hover:scale-110 hover:bg-indigo-500'
-            />
-          }
-          actions={[<HeartTwoTone key='setting'/>]}
-        >
-          <Meta
-            title={
-              <div>
-                <Row>
-                  <Col span={8}>Name:</Col>
-                  <Col span={16}>jojo</Col>
-                </Row>
-              </div>
-            }
-            description={
-              <div>
-                <Row>
-                  <Col span={8}>Id:</Col>
-                  <Col span={16}>225669</Col>
-                  <Col span={8}>出生日期:</Col>
-                  <Col span={16}>19/11/2009</Col>
-                  <Col span={8}>中心:</Col>
-                  <Col span={16}>香港領養中心特殊需要</Col>
-                  <Col span={8}>品種:</Col>
-                  <Col span={16}>唐狗</Col>
-                </Row>
-              </div>
-            }
-            className=''
-          />
-        </Card>
+        {a.map((e, i) => {
+          return <CatCard key={i} />;
+        })}
       </div>
-    </>
+      <div className='hero-content'>
+        <Pagination
+          onChange={(page: number, pageSize: number) => {}}
+          defaultCurrent={1}
+          total={500}
+          pageSize={8}
+          pageSizeOptions={[16, 32, 64]}
+        />
+      </div>
+    </div>
   );
 }
