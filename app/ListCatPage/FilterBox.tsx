@@ -12,7 +12,7 @@ import { StyleProvider } from '@ant-design/cssinjs';
 import enUS from 'antd/locale/en_US';
 import Meta from 'antd/es/card/Meta';
 
-export default () => {
+export const FilterBox = () => {
   return (
     <ConfigProvider locale={enUS}>
       <StyleProvider hashPriority='high'>
@@ -20,7 +20,7 @@ export default () => {
           className='animate-fade-up w-full max-w-screen-xl  p-5 '
           style={{ background: '#FAFAFA' }}
         >
-          <Meta title="Filter"></Meta>
+          <Meta title='Filter'></Meta>
           <QueryFilter<{
             name: string;
           }>

@@ -36,19 +36,7 @@ export default function CatDetailPage ({
         />
       </div>
       <div className='card card-side mx-auto max-w-md overflow-hidden rounded-xl border bg-white shadow-xl md:max-w-4xl'>
-        <div className='md:flex'>
-          <div className='bg-[#FAB115] p-8'>
-            <h2 className='card-title mb-5 text-white'>
-              CONSIDERING ADOPTION?
-            </h2>
-            <p className='text-white'>
-              Visit our adoption centres or call our Homing Department at 2232
-              5529 for more info!
-            </p>
-            <Button type={'primary'} className='bg-black'>
-              Contact Us
-            </Button>
-          </div>
+        <div className=''>
           <div className='p-8'>
             <div className='hero'>
               <Avatar size={200} src='/card_cat1.jpg' className='' />
@@ -68,7 +56,7 @@ export default function CatDetailPage ({
               company. Besides, Bella is a very spoiled furkid who loves wet
               food handfed by our staff. At this age, she has developed some
               joint pain problems and needs to take medication regularly. The
-              vet also discovered a lipoma near Bella’s stomach area. Therefore,
+              vet also discovered a lipoma near Bella's stomach area. Therefore,
               we recommend a financially stable family to adopt her. If you are
               interested in Bella, you are welcome to visit her at the centre.
               Date Posted: Jun 11, 2022
@@ -111,6 +99,18 @@ export default function CatDetailPage ({
                 </div>
               </Col>
             </Row>
+            <div className='bg-[#FAB115] p-8'>
+              <h2 className='card-title mb-5 text-white'>
+                CONSIDERING ADOPTION?
+              </h2>
+              <p className='text-white'>
+                Visit our adoption centres or call our Homing Department at 2232
+                5529 for more info!
+              </p>
+              <Button type={'primary'} className='bg-black'>
+                Contact Us
+              </Button>
+            </div>
           </div>
         </div>
       </div>

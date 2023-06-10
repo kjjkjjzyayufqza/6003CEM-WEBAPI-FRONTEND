@@ -9,9 +9,7 @@ export default function CatDetailPage ({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  useEffect(() => {
-    console.log(params);
-  }, []);
+  useEffect(() => {}, []);
 
   return <div>Hello ID: {params.slug}</div>;
 }

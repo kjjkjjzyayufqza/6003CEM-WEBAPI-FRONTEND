@@ -3,8 +3,8 @@ import { Card, Col, Pagination, Row } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { useEffect } from 'react';
 import { HeartTwoTone } from '@ant-design/icons';
-import FilterBox from './FilterBox';
 import { CatCard } from '@/components/CatCard';
+import { FilterBox } from './FilterBox';
 export default function ListCatPage () {
   const a = [1, 2, 3, 4, 5, 6, 7, 8,];
   useEffect(() => {}, []);
