@@ -1,8 +1,9 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import CatDetailPage from '../page';
 
-export default function CatDetailPage ({
+export default function CatDetailPageSlug ({
   params,
   searchParams,
 }: {
@@ -11,5 +12,5 @@ export default function CatDetailPage ({
 }) {
   useEffect(() => {}, []);
 
-  return <div>Hello ID: {params.slug}</div>;
+  return <CatDetailPage params={{ slug: params.slug }} searchParams={{}} />;
 }
