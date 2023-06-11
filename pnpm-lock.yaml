@@ -44,6 +44,9 @@ dependencies:
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
+  dayjs:
+    specifier: ^1.11.8
+    version: 1.11.8
   eslint:
     specifier: 8.31.0
     version: 8.31.0
