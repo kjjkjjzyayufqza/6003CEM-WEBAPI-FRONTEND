@@ -43,6 +43,7 @@ export default function CatDetailPage ({
                   width={200}
                   src='/card_cat1.jpg'
                   className='rounded-xl'
+                  alt=''
                 />
               </div>
 

@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default function page () {
   return (
     <div>
-      <h1 className='text-2xl text-center'>Please select</h1>
+      <h1 className='text-center text-2xl'>Please select</h1>
       <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-2 xl:px-0'>
         {features.map(({ title, description, demo, large, path }) => (
           <HomeCard
