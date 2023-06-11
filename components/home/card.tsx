@@ -10,6 +10,7 @@ export interface HomeCardModel {
   description: string;
   demo: ReactNode;
   large?: boolean;
+  path: string;
 }
 
 export const HomeCard: FC<HomeCardModel> = ({
@@ -17,6 +18,7 @@ export const HomeCard: FC<HomeCardModel> = ({
   description,
   demo,
   large,
+  path,
 }) => {
   return (
     <Card
@@ -25,7 +27,7 @@ export const HomeCard: FC<HomeCardModel> = ({
         large ? 'md:col-span-2' : ''
       }`}
     >
-      <Link href={'/ListCatPage'} passHref legacyBehavior>
+      <Link href={path} passHref legacyBehavior>
         <div>
           <div className='flex h-60 items-center justify-center'>{demo}</div>
           <div className='mx-auto max-w-md text-center'>

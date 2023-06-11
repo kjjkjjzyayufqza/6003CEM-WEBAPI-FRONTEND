@@ -5,12 +5,15 @@ import Meta from 'antd/es/card/Meta';
 import { FC } from 'react';
 import { HeartTwoTone } from '@ant-design/icons';
 import Link from 'next/link';
-export interface CatCardModel {}
+export interface CatCardModel {
+  width?: number;
+}
 
-export const CatCard: FC<CatCardModel> = () => {
+export const CatCard: FC<CatCardModel> = ({ width }) => {
   return (
     <Link href={'CatDetailPage'}>
       <Card
+        style={{ width: width }}
         className='card bg-base-100 overflow-hidden shadow-md'
         hoverable
         cover={

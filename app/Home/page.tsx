@@ -111,13 +111,14 @@ export default function HomePage () {
         </div>
       </div>
       <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-4 xl:px-0'>
-        {features.map(({ title, description, demo, large }) => (
+        {features.map(({ title, description, demo, large, path }) => (
           <HomeCard
             key={title}
             title={title}
             description={description}
             demo={title === 'Beautiful, reusable components' ? <></> : demo}
             large={large}
+            path={path}
           />
         ))}
       </div>
@@ -141,6 +142,7 @@ const features: HomeCardModel[] = [
       </>
     ),
     large: true,
+    path: 'ListCatPage',
   },
 
   {
@@ -158,6 +160,7 @@ const features: HomeCardModel[] = [
       </>
     ),
     large: true,
+    path: 'ListCatPage',
   },
   {
     title: 'News',
@@ -176,6 +179,7 @@ const features: HomeCardModel[] = [
       </>
     ),
     large: true,
+    path: 'NewsPage',
   },
   {
     title: 'Join Us',
@@ -191,6 +195,7 @@ const features: HomeCardModel[] = [
         ></Image>
       </>
     ),
+    path: 'MemberPage',
   },
   {
     title: 'About Us',
@@ -206,5 +211,6 @@ const features: HomeCardModel[] = [
         ></Image>
       </>
     ),
+    path: 'ListCatPage',
   },
 ];

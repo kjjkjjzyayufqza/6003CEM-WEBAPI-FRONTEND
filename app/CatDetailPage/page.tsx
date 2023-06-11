@@ -10,6 +10,7 @@ import { HiOutlineBuildingOffice2 } from 'react-icons/hi2';
 import { BsGenderAmbiguous } from 'react-icons/bs';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
+import Link from 'next/link';
 export default function CatDetailPage ({
   params,
   searchParams,
@@ -94,17 +95,23 @@ export default function CatDetailPage ({
                 <h2 className='card-title mb-5 text-white'>
                   CONSIDERING ADOPTION?
                 </h2>
-                <p className='text-white'>
-                  Visit our adoption centres or call our Homing Department at
-                  2232 5529 for more info!
+                <p className='my-2 text-white'>
+                  If you are interested in a cat, please make an appointment and
+                  come to the shelter to meet the cat.
                 </p>
-                <Button
-                  type={'primary'}
-                  className='mt-4'
-                  style={{ backgroundColor: '#ffffff' }}
-                >
-                  <div className=' text-black'>Contact Us</div>
-                </Button>
+                <p className='my-2 text-white'>
+                  Visit our Adoption Center or call our attribution department
+                  at 2232 5529 for more information!
+                </p>
+                <Link href={'AppointmentPage'}>
+                  <Button
+                    type={'primary'}
+                    className='mt-4'
+                    style={{ backgroundColor: '#ffffff' }}
+                  >
+                    <div className=' text-black'>Make an appointment</div>
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

@@ -7,21 +7,36 @@ import {
   ProFormCheckbox,
   ProFormDatePicker,
   ProFormDateRangePicker,
+  ProFormDigit,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-components';
-import { ConfigProvider, message } from 'antd';
+import { ConfigProvider, Form, message } from 'antd';
 import { useRef } from 'react';
 import enUS from 'antd/locale/en_US';
-
+import Balancer from 'react-wrap-balancer';
+import { CatCard } from '@/components/CatCard';
+import { Image } from 'antd';
+import { CentreEnum, GenderEnum } from 'Model';
+import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
 export default function AppointmentPage () {
   const formRef = useRef<ProFormInstance>();
 
   return (
     <ConfigProvider locale={enUS}>
       <StyleProvider hashPriority='high'>
+        <RouterBreadcrumb
+          paths={[
+            { name: 'Home', path: '' },
+            { name: 'Appointment', path: 'AppointmentPage', current: true },
+          ]}
+        />
+        <h1 className='mb-5 text-center text-5xl font-bold'>
+          Make an appointment
+        </h1>
+        <h1 className='mb-20 text-center text-2xl font-bold'>Meet the cats</h1>
         <ProCard>
           <StepsForm<{
             name: string;
@@ -36,114 +51,167 @@ export default function AppointmentPage () {
                 required: '此项为必填项',
               },
             }}
+            submitter={{}}
           >
-            <StepsForm.StepForm<{
-              name: string;
-            }>
-              name='base'
-              title='创建实验'
+            <StepsForm.StepForm<{}>
+              name='init'
+              title='Confirm cat information'
               stepProps={{
-                description: '这里填入的都是基本信息',
+                description:
+                  'Confirmation of basic information about the cat to be met',
               }}
               onFinish={async () => {
                 console.log(formRef.current?.getFieldsValue());
                 return true;
               }}
             >
-              <ProFormText
-                name='name'
-                label='实验名称'
-                width='md'
-                tooltip='最长为 24 位，用于标定的唯一 id'
-                placeholder='请输入名称'
-                rules={[{ required: true }]}
-              />
-              <ProFormDatePicker name='date' label='日期' />
-              <ProFormDateRangePicker name='dateTime' label='时间区间' />
-              <ProFormTextArea
-                name='remark'
-                label='备注'
-                width='lg'
-                placeholder='请输入备注'
-              />
+              <Balancer className='animate-fade-up my-10 flex w-full items-center justify-center md:max-w-4xl xl:px-0'>
+                <div className='rounded-lg bg-white p-4 shadow-md'>
+                  <h2 className='mb-2 text-lg font-medium'>
+                    Before making an appointment
+                  </h2>
+                  <p className='mb-1 text-gray-600'>
+                    Please pay attention to the following:
+                  </p>
+                  <ol className='mb-4 list-inside list-decimal text-gray-600'>
+                    <li>
+                      Appointment time: Please make an appointment in advance
+                      before going to the shelter to ensure that you have enough
+                      time to choose the cats you like and interact with them.
+                    </li>
+                    <li>
+                      Health condition: Please make sure that you are in good
+                      health without colds, flu and other diseases to protect
+                      the health of the cats.
+                    </li>
+                    <li>
+                      Cat preferences: When choosing cats, please pay attention
+                      to their preferences and personalities to ensure a
+                      pleasant interaction with them.
+                    </li>
+                    <li>
+                      Safety measures: Please pay attention to safety when
+                      interacting with cats to avoid harming them or yourself.
+                      If you have any questions, please seek help from the
+                      shelter staff in a timely manner.
+                    </li>
+                  </ol>
+                  <p className='text-gray-600'>
+                    Hope the above tips will help you have a pleasant experience
+                    meeting cats.
+                  </p>
+                </div>
+              </Balancer>
+            </StepsForm.StepForm>
+            <StepsForm.StepForm<{}>
+              name='base'
+              title='Confirm cat information'
+              stepProps={{
+                description:
+                  'Confirmation of basic information about the cat to be met',
+              }}
+              onFinish={async () => {
+                console.log(formRef.current?.getFieldsValue());
+                return true;
+              }}
+            >
+              {/* <div className='animate-fade-up my-10 w-1/2 items-center justify-center xl:px-0'>
+                <CatCard />
+              </div> */}
+              <div className='animate-fade-up my-10 flex w-full items-center justify-center xl:px-0'>
+                <CatCard width={400} />
+              </div>
+              <p className=' mb-5 text-center text-lg'>
+                Please confirm that the information is correct and proceed to
+                the next step.
+              </p>
             </StepsForm.StepForm>
             <StepsForm.StepForm<{
               checkbox: string;
             }>
               name='checkbox'
-              title='设置参数'
+              title='Select date and confirmation center'
               stepProps={{
-                description: '这里填入运维参数',
+                description:
+                  'Please select the date you want to make an appointment, and please confirm the appointment center',
               }}
               onFinish={async () => {
                 console.log(formRef.current?.getFieldsValue());
                 return true;
               }}
             >
-              <ProFormCheckbox.Group
-                name='checkbox'
-                label='迁移类型'
+              <ProFormSelect
+                name='centre'
+                label='Centre'
+                width={'md'}
+                valueEnum={CentreEnum}
+                initialValue={CentreEnum.KwunTong}
+                placeholder='Please select a country'
+                rules={[
+                  { required: true, message: 'Please select your country!' },
+                ]}
+                disabled
+              ></ProFormSelect>
+              <ProFormDatePicker
+                name='bookingDateTime'
+                label='Appointment Time'
                 width='lg'
-                options={['结构迁移', '全量迁移', '增量迁移', '全量校验']}
               />
-              <ProForm.Group>
-                <ProFormText name='dbname' label='业务 DB 用户名' />
-                <ProFormDatePicker
-                  name='datetime'
-                  label='记录保存时间'
-                  width='sm'
-                />
-                <ProFormCheckbox.Group
-                  name='checkbox'
-                  label='迁移类型'
-                  options={['完整 LOB', '不同步 LOB', '受限制 LOB']}
-                />
-              </ProForm.Group>
             </StepsForm.StepForm>
             <StepsForm.StepForm
               name='time'
-              title='发布实验'
+              title='Personal data'
               stepProps={{
-                description: '这里填入发布判断',
+                description:
+                  'Please make sure your personal information is correct',
               }}
             >
+              <ProFormText
+                name={'userName'}
+                label='Name'
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              />
+              <ProFormText
+                name={'email'}
+                label='Email'
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              />
+              <ProFormDigit
+                label='Age'
+                name='age'
+                min={1}
+                max={200}
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              />
               <ProFormCheckbox.Group
-                name='checkbox'
-                label='部署单元'
+                name='gender'
+                label='Gender'
                 rules={[
                   {
                     required: true,
                   },
                 ]}
-                options={['部署单元1', '部署单元2', '部署单元3']}
+                options={Object.values(GenderEnum)}
               />
-              <ProFormSelect
-                label='部署分组策略'
-                name='remark'
+              <ProFormText
+                label='Phone'
+                name='phone'
                 rules={[
                   {
                     required: true,
                   },
-                ]}
-                initialValue='1'
-                options={[
-                  {
-                    value: '1',
-                    label: '策略一',
-                  },
-                  { value: '2', label: '策略二' },
-                ]}
-              />
-              <ProFormSelect
-                label='Pod 调度策略'
-                name='remark2'
-                initialValue='2'
-                options={[
-                  {
-                    value: '1',
-                    label: '策略一',
-                  },
-                  { value: '2', label: '策略二' },
                 ]}
               />
             </StepsForm.StepForm>
