@@ -1,41 +1,62 @@
 'use client';
 
-import { useState } from 'react';
-import { signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import { LayoutDashboard, LogOut } from 'lucide-react';
 import Popover from '@/components/shared/popover';
 import Image from 'next/image';
 import { Session } from 'next-auth';
 import Link from 'next/link';
-
-export default function UserDropdown ({ session }: { session: Session }) {
+import { Button, message } from 'antd';
+import jwt_decode from 'jwt-decode';
+export default function UserDropdown ({ session }: { session: any }) {
   const { email, image } = session?.user || {};
   const [openPopover, setOpenPopover] = useState(false);
-
+  const [messageApi, contextHolder] = message.useMessage();
   if (!email) return null;
+
+  useEffect(() => {
+    // console.log(session);
+    if (email) {
+      // messageApi.success('Login successful');
+      if (
+        session.access_token &&
+        session.refresh_token &&
+        session.expire_date
+      ) {
+        localStorage.setItem('access_token', session.access_token);
+        localStorage.setItem('refresh_token', session.refresh_token);
+        localStorage.setItem('expire_date', session.expire_date);
+      }
+    }
+  }, [email]);
 
   return (
     <div className='relative inline-block text-left'>
+      {contextHolder}
       <Popover
         content={
           <div className='w-full rounded-md bg-white p-2 sm:w-56'>
-            {/* <Link
-              className="flex items-center justify-start space-x-2 relative w-full rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
-              href="/dashboard"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              <p className="text-sm">Dashboard</p>
-            </Link> */}
             <Link
-              href={'MemberPage/PersonalInformation'}
+              href={'MemberPage/Dashboard'}
               className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
             >
               <LayoutDashboard className='h-4 w-4' />
               <p className='text-sm'>Dashboard</p>
             </Link>
+            <Button
+              onClick={() => {
+                console.log(session);
+              }}
+            >
+              test
+            </Button>
             <button
               className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
-              onClick={() => signOut()}
+              onClick={() => {
+                localStorage.clear();
+                signOut();
+              }}
             >
               <LogOut className='h-4 w-4' />
               <p className='text-sm'>Logout</p>
