@@ -33,19 +33,19 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn:
-      process.env.NODE_ENV == 'development'
+      env == 'development'
         ? '/'
         : 'https://6003-cem-webapi-frontend.vercel.app/', // on successfully signin
     signOut:
-      process.env.NODE_ENV == 'development'
+      env == 'development'
         ? '/'
         : 'https://6003-cem-webapi-frontend.vercel.app/', // on signout redirects users to a custom login page.
     error:
-      process.env.NODE_ENV == 'development'
+      env == 'development'
         ? '/'
         : 'https://6003-cem-webapi-frontend.vercel.app/', // displays authentication errors
     newUser:
-      process.env.NODE_ENV == 'development'
+      env == 'development'
         ? '/'
         : 'https://6003-cem-webapi-frontend.vercel.app/', // New users will be directed here on first sign in (leave the property out if not of interest)
   },

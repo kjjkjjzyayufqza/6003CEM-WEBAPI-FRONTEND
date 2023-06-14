@@ -10,8 +10,16 @@ export default async function Home () {
       messageApi.success(data);
     };
     let successMessage = PubSub.subscribe('SuccessMessage', SuccessMessage);
+
+    let WarningMessage = (msg: any, data: any) => {
+      messageApi.warning(data);
+    };
+    let warningMessage = PubSub.subscribe('WarningMessage', WarningMessage);
+
     return () => {
       PubSub.unsubscribe(successMessage);
+      
+      PubSub.unsubscribe(warningMessage);
     };
   }, []);
 

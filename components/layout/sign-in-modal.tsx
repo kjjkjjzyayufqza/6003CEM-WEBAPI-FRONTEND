@@ -29,6 +29,7 @@ import {
 import { StyleProvider } from '@ant-design/cssinjs';
 import enUS from 'antd/locale/en_US';
 import { useRouter } from 'next/navigation';
+import { RegisterPublic, SignInPublic, SignInStaff } from 'API/auth';
 
 type LoginType = 'login' | 'register';
 
@@ -102,12 +103,16 @@ const SignInModal = ({
               </button>
               <Button
                 type={'text'}
-                style={{ color: '#03A9F4' }}
+                style={{ color: '#000000' }}
                 onClick={() => {
-                  setType('register');
+                  setType(type == 'login' ? 'register' : 'login');
                 }}
               >
-                Register
+                {type == 'login' ? (
+                  <p className='underline'>Register</p>
+                ) : (
+                  <p className='underline'>Login</p>
+                )}
               </Button>
             </div>
           </div>
@@ -123,6 +128,24 @@ const CusLoginForm: FC = () => {
       // logo='https://github.githubassets.com/images/modules/logos_page/Octocat.png'
       // title='Github'
       // subTitle='全球最大的代码托管平台'
+      onFinish={values => {
+        console.log(values);
+        SignInPublic({ email: values.email, password: values.password })
+          .then(res => {
+            console.log(res);
+            PubSub.publish('SuccessMessage', 'Login successful');
+          })
+          .catch(err => {
+            console.log(err);
+            PubSub.publish(
+              'WarningMessage',
+              'Login failed, please check account and password!',
+            );
+          });
+        return new Promise((resolve, rejects) => {
+          resolve(true);
+        });
+      }}
       submitter={{
         render (props, dom) {
           return (
@@ -140,7 +163,7 @@ const CusLoginForm: FC = () => {
       }}
     >
       <ProFormText
-        name='username'
+        name='email'
         fieldProps={{
           size: 'large',
           prefix: <UserOutlined className={'prefixIcon'} />,
@@ -172,12 +195,48 @@ const CusLoginForm: FC = () => {
 const CusRegisterForm: FC = () => {
   return (
     <LoginForm
-    // logo='https://github.githubassets.com/images/modules/logos_page/Octocat.png'
-    // title='Github'
-    // subTitle='全球最大的代码托管平台'
+      // logo='https://github.githubassets.com/images/modules/logos_page/Octocat.png'
+      // title='Github'
+      // subTitle='全球最大的代码托管平台'
+      onFinish={values => {
+        if (values.rePassword != values.password) {
+          message.warning('Inconsistent passwords');
+        } else {
+          RegisterPublic({
+            name: '',
+            photo: '',
+            email: values.email,
+            password: values.password,
+          })
+            .then(res => {
+              message.success('Register Done');
+            })
+            .catch(err => {
+              message.warning('Register Fail');
+            });
+        }
+        return new Promise((resolve, rejects) => {
+          resolve(true);
+        });
+      }}
+      submitter={{
+        render (props, dom) {
+          return (
+            <Button
+              onClick={() => props.submit()}
+              style={{ background: '#167ff', color: 'white' }}
+              className='w-full'
+              type={'primary'}
+              size={'large'}
+            >
+              Register
+            </Button>
+          );
+        },
+      }}
     >
       <ProFormText
-        name='username'
+        name='email'
         fieldProps={{
           size: 'large',
           prefix: <UserOutlined className={'prefixIcon'} />,

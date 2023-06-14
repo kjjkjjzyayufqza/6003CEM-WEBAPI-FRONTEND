@@ -7,7 +7,7 @@ const nextConfig = {
     // Enables the styled-components SWC transform
     styledComponents: true
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
   images: {
     domains: ["lh3.googleusercontent.com", "vercel.com"],
