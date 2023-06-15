@@ -14,7 +14,7 @@ const instance = axios.create({
   baseURL:
     process.env.NODE_ENV == 'development'
       ? 'http://localhost:3000/'
-      : 'https://vtc6005cem-security-backend.azurewebsites.net/',
+      : 'https://6003cem-webapi-backend.azurewebsites.net/',
   timeout: 10000,
 });
 

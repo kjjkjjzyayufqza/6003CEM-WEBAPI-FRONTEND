@@ -26,6 +26,8 @@ import {
 } from '@ant-design/pro-components';
 import { CatBreedEnum, CatsModel, CentreEnum, GenderEnum } from 'Model';
 import { getCats } from 'API/cats';
+import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
+import Link from 'next/link';
 
 type GithubIssueItem = CatsModel;
 
@@ -135,8 +137,30 @@ export default function Page () {
             <WebMenu path={path} />
           </Sider>
           <Layout>
-            <Header style={{ padding: 0, background: colorBgContainer }}>
-              <div>{path}</div>
+            <Header
+              style={{
+                padding: '0 2em',
+                background: colorBgContainer,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <div className=''>
+                <Breadcrumb
+                  items={[
+                    {
+                      title: <Link href={'/Staff'}>Home</Link>,
+                    },
+                    {
+                      title: 'Cat Manage',
+                    },
+                  ]}
+                />
+              </div>
+              <div>
+                <Avatar src={'/card_cat1.jpg'} size={'large'}></Avatar>
+              </div>
             </Header>
             <div style={{ margin: '0 16px' }}>
               <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>
@@ -210,7 +234,7 @@ export default function Page () {
                     onChange: (page: number, pageSize: number) => {},
                   }}
                   dateFormatter='string'
-                  headerTitle='高级表格'
+                  headerTitle='Cat List'
                   toolBarRender={() => [
                     <Button
                       key='button'
