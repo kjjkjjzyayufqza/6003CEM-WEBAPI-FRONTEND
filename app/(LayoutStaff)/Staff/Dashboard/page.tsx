@@ -21,11 +21,7 @@ export default function Page () {
     <ConfigProvider locale={enUS}>
       <StyleProvider hashPriority='high'>
         <Layout style={{ minHeight: '100vh' }}>
-          <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={value => setCollapsed(value)}
-          >
+          <Sider>
             <div className='demo-logo-vertical' />
             <WebMenu path={path} />
           </Sider>

@@ -2,7 +2,10 @@
 import {
   DesktopOutlined,
   FileOutlined,
+  HomeOutlined,
+  OrderedListOutlined,
   PieChartOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import { useRouter } from 'next/navigation';
@@ -25,15 +28,14 @@ function getItem (
 }
 
 const items: MenuItem[] = [
-  getItem('Home', '/Staff', <PieChartOutlined />),
+  getItem('Home', '/Staff', <HomeOutlined />),
   getItem('Dashboard', '/Staff/Dashboard', <PieChartOutlined />),
-  getItem('Cat Management', '2', <DesktopOutlined />),
-  getItem('Account', '3', <FileOutlined />),
+  getItem('Cat Management', '/Staff/CatManagement', <OrderedListOutlined />),
+  getItem('Account', '/Staff/Account', <UserOutlined />),
 ];
 
 export default function WebMenu ({ path }: { path: string }) {
   const router = useRouter();
-  console.log(path)
   return (
     <Menu
       theme='dark'
@@ -41,7 +43,6 @@ export default function WebMenu ({ path }: { path: string }) {
       mode='inline'
       items={items}
       onClick={e => {
-        console.log(e.keyPath);
         router.push(e.keyPath[0]);
       }}
     />

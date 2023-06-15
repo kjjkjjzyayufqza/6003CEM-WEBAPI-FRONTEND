@@ -11,9 +11,7 @@ export default async function StaffLayout ({
 }) {
   return (
     <html lang='en'>
-      <body className={cx(sfPro.variable, inter.variable)}>
-        {children}
-      </body>
+      <body className={cx(sfPro.variable, inter.variable)}>{children}</body>
     </html>
   );
 }
