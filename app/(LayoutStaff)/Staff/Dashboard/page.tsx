@@ -1,50 +1,19 @@
 'use client';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-} from '@ant-design/icons';
-import {
-  Breadcrumb,
-  ConfigProvider,
-  Layout,
-  Menu,
-  MenuProps,
-  theme,
-} from 'antd';
-import { useState } from 'react';
+import { Breadcrumb, ConfigProvider, Layout, theme } from 'antd';
+import { useEffect, useState } from 'react';
 import { StyleProvider } from '@ant-design/cssinjs';
 import enUS from 'antd/locale/en_US';
 import Sider from 'antd/es/layout/Sider';
 import { Header, Footer } from 'antd/es/layout/layout';
-import { useRouter } from 'next/navigation';
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem (
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem('Home', 'Staff/', <PieChartOutlined />),
-  getItem('Dashboard', 'Staff/Dashboard', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('Files', '3', <FileOutlined />),
-];
+import { usePathname, useRouter } from 'next/navigation';
+import WebMenu from '@/components/WebMenu';
 
 export default function Page () {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
+  const path = usePathname();
+  useEffect(() => {}, []);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -58,20 +27,11 @@ export default function Page () {
             onCollapse={value => setCollapsed(value)}
           >
             <div className='demo-logo-vertical' />
-            <Menu
-              theme='dark'
-              defaultSelectedKeys={['Staff/Dashboard']}
-              mode='inline'
-              items={items}
-              onClick={e => {
-                console.log(e.keyPath);
-                router.push(e.keyPath[0]);
-              }}
-            />
+            <WebMenu path={path} />
           </Sider>
           <Layout>
             <Header style={{ padding: 0, background: colorBgContainer }}>
-              <div>hello</div>
+              <div>{path}</div>
             </Header>
             <div style={{ margin: '0 16px' }}>
               <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>

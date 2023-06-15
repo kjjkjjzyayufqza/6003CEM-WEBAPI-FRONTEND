@@ -1,3 +1,4 @@
+'use client';
 import { HomeCard, HomeCardModel } from '@/components/home/card';
 import { Badge } from 'antd';
 import Image from 'next/image';

@@ -12,7 +12,7 @@ export default async function StaffLayout ({
   return (
     <html lang='en'>
       <body className={cx(sfPro.variable, inter.variable)}>
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );

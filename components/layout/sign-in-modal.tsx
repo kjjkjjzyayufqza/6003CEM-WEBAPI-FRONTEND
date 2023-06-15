@@ -128,6 +128,7 @@ const CusLoginForm: FC<{
 
             localStorage.setItem('isServerLogin', 'True');
             router.push('/');
+            window.location.reload()
             setLoading(false);
             _setShowSignInModal(false);
           })

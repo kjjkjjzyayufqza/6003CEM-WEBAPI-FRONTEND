@@ -43,12 +43,14 @@ export default function NavBar ({ session }: { session: Session | null }) {
             {session && !isServer ? (
               <UserDropdown session={session} />
             ) : (
-              <button
-                className='rounded-full border border-white bg-[#facc15] p-2 px-4 text-sm text-white transition-all hover:bg-yellow-600 hover:text-white'
-                onClick={() => setShowSignInModal(true)}
-              >
-                Sign In
-              </button>
+              !isServer && (
+                <button
+                  className='rounded-full border border-white bg-[#facc15] p-2 px-4 text-sm text-white transition-all hover:bg-yellow-600 hover:text-white'
+                  onClick={() => setShowSignInModal(true)}
+                >
+                  Sign In
+                </button>
+              )
             )}
             {isServer && <UserDropdownServer />}
           </div>
