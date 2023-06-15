@@ -114,7 +114,7 @@ const columns: ProColumns<GithubIssueItem>[] = [
     title: 'Action',
     valueType: 'option',
     key: 'option',
-    render: (text, record, _, action) => [<Button>View</Button>],
+    render: (text, record, _, action) => [<Button key={'a'}>View</Button>],
   },
 ];
 
