@@ -1,5 +1,6 @@
 'use client';
 import {
+  Avatar,
   Breadcrumb,
   Button,
   ConfigProvider,
@@ -9,7 +10,7 @@ import {
   Tag,
   theme,
 } from 'antd';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleProvider } from '@ant-design/cssinjs';
 import enUS from 'antd/locale/en_US';
 import Sider from 'antd/es/layout/Sider';
@@ -23,35 +24,41 @@ import {
   ProTable,
   TableDropdown,
 } from '@ant-design/pro-components';
+import { CatBreedEnum, CatsModel, CentreEnum, GenderEnum } from 'Model';
+import { getCats } from 'API/cats';
 
-type GithubIssueItem = {
-  url: string;
-  id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
-};
+type GithubIssueItem = CatsModel;
 
 const columns: ProColumns<GithubIssueItem>[] = [
   {
-    dataIndex: 'index',
+    dataIndex: '_id',
     valueType: 'indexBorder',
     width: 48,
   },
   {
-    title: '标题',
-    dataIndex: 'title',
+    dataIndex: 'photo',
+    valueType: 'text',
+    hideInSearch: true,
+    width: 120,
+    editable: false,
+    render: (_, value) => {
+      return (
+        <div>
+          <Avatar
+            key={'a'}
+            src={value.photo}
+            size={'large'}
+            style={{ width: '80px', height: '80px' }}
+          ></Avatar>
+        </div>
+      );
+    },
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
     copyable: true,
     ellipsis: true,
-    tip: '标题过长会自动收缩',
     formItemProps: {
       rules: [
         {
@@ -62,95 +69,50 @@ const columns: ProColumns<GithubIssueItem>[] = [
     },
   },
   {
-    disable: true,
-    title: '状态',
-    dataIndex: 'state',
+    title: 'Gender',
+    dataIndex: 'gender',
+    filters: true,
+    onFilter: true,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: GenderEnum,
+  },
+  {
+    title: 'Breed',
+    dataIndex: 'breed',
+    filters: true,
+    onFilter: true,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: CatBreedEnum,
+  },
+  {
+    title: 'Centre',
+    dataIndex: 'centre',
+    filters: true,
+    onFilter: true,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: CentreEnum,
+  },
+  {
+    title: 'Adopted',
+    dataIndex: 'adopted',
     filters: true,
     onFilter: true,
     ellipsis: true,
     valueType: 'select',
     valueEnum: {
-      all: { text: '超长'.repeat(50) },
-      open: {
-        text: '未解决',
-        status: 'Error',
-      },
-      closed: {
-        text: '已解决',
-        status: 'Success',
-        disabled: true,
-      },
-      processing: {
-        text: '解决中',
-        status: 'Processing',
-      },
+      true: { text: 'Yes' },
+      false: { text: 'No' },
     },
   },
+
   {
-    disable: true,
-    title: '标签',
-    dataIndex: 'labels',
-    search: false,
-    renderFormItem: (_, { defaultRender }) => {
-      return defaultRender(_);
-    },
-    render: (_, record) => (
-      <Space>
-        {record.labels.map(({ name, color }) => (
-          <Tag color={color} key={name}>
-            {name}
-          </Tag>
-        ))}
-      </Space>
-    ),
-  },
-  {
-    title: '创建时间',
-    key: 'showTime',
-    dataIndex: 'created_at',
-    valueType: 'date',
-    sorter: true,
-    hideInSearch: true,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'created_at',
-    valueType: 'dateRange',
-    hideInTable: true,
-    search: {
-      transform: value => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
-      },
-    },
-  },
-  {
-    title: '操作',
+    title: 'Action',
     valueType: 'option',
     key: 'option',
-    render: (text, record, _, action) => [
-      <a
-        key='editable'
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        编辑
-      </a>,
-      <a href={record.url} target='_blank' rel='noopener noreferrer' key='view'>
-        查看
-      </a>,
-      <TableDropdown
-        key='actionGroup'
-        onSelect={() => action?.reload()}
-        menus={[
-          { key: 'copy', name: '复制' },
-          { key: 'delete', name: '删除' },
-        ]}
-      />,
-    ],
+    render: (text, record, _, action) => [<Button>View</Button>],
   },
 ];
 
@@ -158,6 +120,7 @@ export default function Page () {
   const actionRef = useRef<ActionType>();
   const router = useRouter();
   const path = usePathname();
+
   useEffect(() => {}, []);
 
   const {
@@ -188,9 +151,29 @@ export default function Page () {
                   columns={columns}
                   actionRef={actionRef}
                   cardBordered
-                  request={async (params = {}, sort, filter) => {
-                    console.log(sort, filter);
-                    return [];
+                  rowKey='_id'
+                  request={async (params, sort, filter) => {
+                    console.log(params);
+                    let data: GithubIssueItem[] = [];
+                    await getCats({
+                      name: params?.name,
+                      gender: params?.gender,
+                      breed: params?.breed,
+                      centre: params?.centre,
+                      adopted: params?.adopted,
+                      page: params.current,
+                      pageSize: params.pageSize,
+                    })
+                      .then(res => {
+                        data = res.data;
+                      })
+                      .catch(err => {});
+
+                    return {
+                      data: data,
+                      success: true,
+                      total: 100,
+                    };
                   }}
                   editable={{
                     type: 'multiple',
@@ -199,10 +182,9 @@ export default function Page () {
                     persistenceKey: 'pro-table-singe-demos',
                     persistenceType: 'localStorage',
                     onChange (value) {
-                      console.log('value: ', value);
+                      //   console.log('value: ', value);
                     },
                   }}
-                  rowKey='id'
                   search={{
                     labelWidth: 'auto',
                   }}
@@ -224,8 +206,8 @@ export default function Page () {
                     },
                   }}
                   pagination={{
-                    pageSize: 5,
-                    onChange: page => console.log(page),
+                    pageSize: 10,
+                    onChange: (page: number, pageSize: number) => {},
                   }}
                   dateFormatter='string'
                   headerTitle='高级表格'
@@ -238,31 +220,8 @@ export default function Page () {
                       }}
                       type='primary'
                     >
-                      新建
+                      Add Cat
                     </Button>,
-                    <Dropdown
-                      key='menu'
-                      menu={{
-                        items: [
-                          {
-                            label: '1st item',
-                            key: '1',
-                          },
-                          {
-                            label: '2nd item',
-                            key: '1',
-                          },
-                          {
-                            label: '3rd item',
-                            key: '1',
-                          },
-                        ],
-                      }}
-                    >
-                      <Button>
-                        <EllipsisOutlined />
-                      </Button>
-                    </Dropdown>,
                   ]}
                 />
               </div>

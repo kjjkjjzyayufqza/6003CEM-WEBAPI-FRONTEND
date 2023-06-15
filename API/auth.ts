@@ -56,7 +56,7 @@ export async function getToken () {
       !localStorage.getItem('refresh_token')
     ) {
       solved('null');
-      window.location.href = '/loginPage';
+      window.location.href = '/';
     } else {
       if (!_isRefeshingToken) {
         _isRefeshingToken = true;
