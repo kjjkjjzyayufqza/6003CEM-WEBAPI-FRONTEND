@@ -48,7 +48,7 @@ export default function CatDetailPage ({
               </div>
 
               <h2 className='card-title mb-5 text-2xl'>
-                Hello I'm <span className='text-3xl text-indigo-500'>jojo</span>{' '}
+                Hello I`&apos;`m <span className='text-3xl text-indigo-500'>jojo</span>{' '}
                 !
               </h2>
               <h2 className='card-title mb-1'>About Me</h2>
@@ -62,7 +62,7 @@ export default function CatDetailPage ({
                 company. Besides, Bella is a very spoiled furkid who loves wet
                 food handfed by our staff. At this age, she has developed some
                 joint pain problems and needs to take medication regularly. The
-                vet also discovered a lipoma near Bella's stomach area.
+                vet also discovered a lipoma near Bella`&apos;`s stomach area.
                 Therefore, we recommend a financially stable family to adopt
                 her. If you are interested in Bella, you are welcome to visit
                 her at the centre. Date Posted: Jun 11, 2022

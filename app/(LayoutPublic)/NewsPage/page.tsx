@@ -23,7 +23,7 @@ export default function page () {
               href='#'
               className='mt-1 block text-lg font-medium leading-tight text-black hover:underline'
             >
-              Hello, I'm jojo
+              Hello, I`&apos;`m jojo
             </a>
             <p className='mt-2 text-slate-500'>
               Welcome to our new cat, jojo, who we found in Kwun Tong ......

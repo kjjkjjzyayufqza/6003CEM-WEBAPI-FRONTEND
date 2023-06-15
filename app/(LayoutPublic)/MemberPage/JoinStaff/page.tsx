@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { useRef } from 'react';
 import enUS from 'antd/locale/en_US';
 
-export default function page () {
+export default function Page () {
   const formRef = useRef<ProFormInstance>();
 
   return (

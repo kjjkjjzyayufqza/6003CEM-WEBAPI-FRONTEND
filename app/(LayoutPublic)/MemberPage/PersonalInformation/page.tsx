@@ -11,7 +11,7 @@ import React, { useRef } from 'react';
 import dayjs from 'dayjs';
 import enUS from 'antd/locale/en_US';
 import { StyleProvider } from '@ant-design/cssinjs';
-export default function page () {
+export default function Page () {
   const formRef = useRef<ProFormInstance>();
 
   return (

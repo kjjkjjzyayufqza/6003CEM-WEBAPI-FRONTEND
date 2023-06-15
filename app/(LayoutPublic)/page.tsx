@@ -21,7 +21,7 @@ export default async function Home () {
       
       PubSub.unsubscribe(warningMessage);
     };
-  }, []);
+  }, [messageApi]);
 
   return (
     <>

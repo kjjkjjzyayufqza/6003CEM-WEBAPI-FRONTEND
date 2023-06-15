@@ -51,7 +51,7 @@ const items: MenuItem[] = [
   getItem('Files', '3', <FileOutlined />),
 ];
 
-export default () => {
+export default function Page () {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   const {
@@ -102,4 +102,4 @@ export default () => {
       </StyleProvider>
     </ConfigProvider>
   );
-};
+}

@@ -11,25 +11,24 @@ import { Button, message } from 'antd';
 import jwt_decode from 'jwt-decode';
 export default function UserDropdown ({ session }: { session: any }) {
   const { email, image } = session?.user || {};
-  const [openPopover, setOpenPopover] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
-  if (!email) return null;
-
   useEffect(() => {
     // console.log(session);
     if (email) {
       // messageApi.success('Login successful');
       if (
-        session.access_token &&
-        session.refresh_token &&
-        session.expire_date
+        session?.access_token &&
+        session?.refresh_token &&
+        session?.expire_date
       ) {
         localStorage.setItem('access_token', session.access_token);
         localStorage.setItem('refresh_token', session.refresh_token);
         localStorage.setItem('expire_date', session.expire_date);
       }
     }
-  }, [email]);
+  }, [email, session]);
+  if (!email) return null;
+  const [openPopover, setOpenPopover] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   return (
     <div className='relative inline-block text-left'>
