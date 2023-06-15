@@ -60,7 +60,7 @@ export default function Page () {
             <div className='demo-logo-vertical' />
             <Menu
               theme='dark'
-              defaultSelectedKeys={['Staff/']}
+              defaultSelectedKeys={['Staff/Dashboard']}
               mode='inline'
               items={items}
               onClick={e => {

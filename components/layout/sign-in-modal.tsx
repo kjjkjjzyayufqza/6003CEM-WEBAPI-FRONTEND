@@ -1,35 +1,25 @@
 'use client';
+import { Google, LoadingDots } from '@/components/shared/icons';
 import Modal from '@/components/shared/modal';
+import { StyleProvider } from '@ant-design/cssinjs';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginForm, ProFormText } from '@ant-design/pro-components';
+import { SignInPublic } from 'API/auth';
+import { Button, ConfigProvider, Tabs, TabsProps, message } from 'antd';
+import enUS from 'antd/locale/en_US';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import {
-  useState,
   Dispatch,
+  FC,
   SetStateAction,
   useCallback,
   useMemo,
-  FC,
+  useState,
 } from 'react';
-import { LoadingDots, Google } from '@/components/shared/icons';
-import Image from 'next/image';
-import {
-  LoginForm,
-  ProFormCaptcha,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
-import { Button, ConfigProvider, Space, Tabs, TabsProps, message } from 'antd';
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
-import { StyleProvider } from '@ant-design/cssinjs';
-import enUS from 'antd/locale/en_US';
-import { useRouter } from 'next/navigation';
-import { RegisterPublic, SignInPublic, SignInStaff } from 'API/auth';
+import jwt_decode from 'jwt-decode';
+import * as CryptoJS from 'crypto-js';
 
 type LoginType = 'login' | 'register';
 
@@ -47,12 +37,7 @@ const SignInModal = ({
     {
       key: 'login',
       label: '',
-      children: <CusLoginForm />,
-    },
-    {
-      key: 'register',
-      label: '',
-      children: <CusRegisterForm />,
+      children: <CusLoginForm _setShowSignInModal={setShowSignInModal} />,
     },
   ];
   return (
@@ -105,14 +90,11 @@ const SignInModal = ({
                 type={'text'}
                 style={{ color: '#000000' }}
                 onClick={() => {
-                  setType(type == 'login' ? 'register' : 'login');
+                  route.push('MemberPage/JoinMember');
+                  setShowSignInModal(false);
                 }}
               >
-                {type == 'login' ? (
-                  <p className='underline'>Register</p>
-                ) : (
-                  <p className='underline'>Login</p>
-                )}
+                <p className='underline'>Register</p>
               </Button>
             </div>
           </div>
@@ -122,35 +104,48 @@ const SignInModal = ({
   );
 };
 
-const CusLoginForm: FC = () => {
+const CusLoginForm: FC<{
+  _setShowSignInModal: Dispatch<SetStateAction<boolean>>;
+}> = ({ _setShowSignInModal }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   return (
     <LoginForm
       // logo='https://github.githubassets.com/images/modules/logos_page/Octocat.png'
       // title='Github'
       // subTitle='全球最大的代码托管平台'
-      onFinish={values => {
-        console.log(values);
-        SignInPublic({ email: values.email, password: values.password })
+      onFinish={async values => {
+        setLoading(true);
+        let password = CryptoJS.SHA256(values.password).toString();
+        await SignInPublic({ email: values.email, password: password })
           .then(res => {
             console.log(res);
-            PubSub.publish('SuccessMessage', 'Login successful');
+            message.success('Login successful');
+            localStorage.setItem('access_token', res.data.accessToken);
+            localStorage.setItem('refresh_token', res.data.refreshToken);
+            const expire_date: any = jwt_decode(res.data.accessToken);
+            localStorage.setItem('expire_date', String(expire_date.exp * 1000));
+
+            localStorage.setItem('isServerLogin', 'True');
+            router.push('/');
+            setLoading(false);
+            _setShowSignInModal(false);
           })
           .catch(err => {
             console.log(err);
-            PubSub.publish(
-              'WarningMessage',
-              'Login failed, please check account and password!',
-            );
+            message.warning('Login failed, please check account and password!');
+            setLoading(false);
           });
-        return new Promise((resolve, rejects) => {
-          resolve(true);
-        });
+        return true;
       }}
       submitter={{
         render (props, dom) {
           return (
             <Button
-              onClick={() => props.submit()}
+              loading={loading}
+              onClick={() => {
+                props.submit();
+              }}
               style={{ background: '#facc15', color: 'white' }}
               className='w-full'
               type={'primary'}
@@ -182,92 +177,6 @@ const CusLoginForm: FC = () => {
           prefix: <LockOutlined className={'prefixIcon'} />,
         }}
         placeholder={'Password'}
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      />
-    </LoginForm>
-  );
-};
-
-const CusRegisterForm: FC = () => {
-  return (
-    <LoginForm
-      // logo='https://github.githubassets.com/images/modules/logos_page/Octocat.png'
-      // title='Github'
-      // subTitle='全球最大的代码托管平台'
-      onFinish={values => {
-        if (values.rePassword != values.password) {
-          message.warning('Inconsistent passwords');
-        } else {
-          RegisterPublic({
-            name: '',
-            photo: '',
-            email: values.email,
-            password: values.password,
-          })
-            .then(res => {
-              message.success('Register Done');
-            })
-            .catch(err => {
-              message.warning('Register Fail');
-            });
-        }
-        return new Promise((resolve, rejects) => {
-          resolve(true);
-        });
-      }}
-      submitter={{
-        render (props, dom) {
-          return (
-            <Button
-              onClick={() => props.submit()}
-              style={{ background: '#167ff', color: 'white' }}
-              className='w-full'
-              type={'primary'}
-              size={'large'}
-            >
-              Register
-            </Button>
-          );
-        },
-      }}
-    >
-      <ProFormText
-        name='email'
-        fieldProps={{
-          size: 'large',
-          prefix: <UserOutlined className={'prefixIcon'} />,
-        }}
-        placeholder={'Email'}
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      />
-      <ProFormText.Password
-        name='password'
-        fieldProps={{
-          size: 'large',
-          prefix: <LockOutlined className={'prefixIcon'} />,
-        }}
-        placeholder={'Password'}
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      />
-      <ProFormText.Password
-        name='rePassword'
-        fieldProps={{
-          size: 'large',
-          prefix: <LockOutlined className={'prefixIcon'} />,
-        }}
-        placeholder={'Re-Password'}
         rules={[
           {
             required: true,

@@ -1,19 +1,13 @@
-'use client';
-import Balancer from 'react-wrap-balancer';
-import { DEPLOY_URL } from '@/lib/constants';
+import { HomeCard, HomeCardModel } from '@/components/home/card';
+import { Badge } from 'antd';
 import Image from 'next/image';
-import { nFormatter } from '@/lib/utils';
-import { Badge, Button } from 'antd';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { LuCat } from 'react-icons/lu';
+import Balancer from 'react-wrap-balancer';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { HomeCard, HomeCardModel } from '@/components/home/card';
-import { LuCat } from 'react-icons/lu';
-import { AiOutlineRightCircle } from 'react-icons/ai';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function HomePage () {
   const SwiperStyle: any = {

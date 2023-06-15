@@ -6,13 +6,17 @@ import useScroll from '@/lib/hooks/use-scroll';
 import { useSignInModal } from './sign-in-modal';
 import UserDropdown from './user-dropdown';
 import { Session } from 'next-auth';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import UserDropdownServer from './user-dropdownServer';
 
 export default function NavBar ({ session }: { session: Session | null }) {
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
+  const [isServer, setIsServer] = useState<boolean>(false);
   useEffect(() => {
-    // console.log(session)
+    if (localStorage.getItem('isServerLogin') == 'True') {
+      setIsServer(true);
+    }
   }, []);
   return (
     <>
@@ -36,7 +40,7 @@ export default function NavBar ({ session }: { session: Session | null }) {
             <p>The Pet Shelter</p>
           </Link>
           <div>
-            {session ? (
+            {session && !isServer ? (
               <UserDropdown session={session} />
             ) : (
               <button
@@ -46,6 +50,7 @@ export default function NavBar ({ session }: { session: Session | null }) {
                 Sign In
               </button>
             )}
+            {isServer && <UserDropdownServer />}
           </div>
         </div>
       </div>

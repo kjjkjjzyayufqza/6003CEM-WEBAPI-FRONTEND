@@ -50,6 +50,8 @@ export interface CreateUserModel {
   name: string;
   photo: string;
   email: string;
+  phone: string;
+  birthday: Date;
   password: string;
 }
 

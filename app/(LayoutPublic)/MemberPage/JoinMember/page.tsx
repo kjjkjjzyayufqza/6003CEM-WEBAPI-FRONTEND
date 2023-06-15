@@ -8,12 +8,16 @@ import {
 } from '@ant-design/pro-components';
 import { Alert, Button, ConfigProvider, message } from 'antd';
 import dayjs from 'dayjs';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import enUS from 'antd/locale/en_US';
+import { RegisterPublic, SignInPublic } from 'API/auth';
+import { useRouter } from 'next/navigation';
+import jwt_decode from 'jwt-decode';
+import * as CryptoJS from 'crypto-js';
 
 export default function Page () {
   const formRef = useRef<ProFormInstance>(null);
-
+  const router = useRouter();
   return (
     <ConfigProvider locale={enUS}>
       <StyleProvider hashPriority='high'>
@@ -30,8 +34,56 @@ export default function Page () {
             formRef={formRef}
             submitter={{}}
             onFinish={async values => {
-              console.log(values);
-              message.success('提交成功');
+              // console.log(values);
+              if (values.rePassword != values.password) {
+                message.warning('Inconsistent passwords');
+              } else {
+                let password = CryptoJS.SHA256(values.password).toString();
+                await RegisterPublic({
+                  name: values.name,
+                  photo: '',
+                  email: values.email,
+                  phone: values.phone,
+                  birthday: values.birthday,
+                  password: password,
+                })
+                  .then(res => {
+                    message.success('Register Done');
+                    SignInPublic({ email: values.email, password: password })
+                      .then(res => {
+                        message.success('Login Done');
+                        localStorage.setItem(
+                          'access_token',
+                          res.data.accessToken,
+                        );
+                        localStorage.setItem(
+                          'refresh_token',
+                          res.data.refreshToken,
+                        );
+                        const expire_date: any = jwt_decode(
+                          res.data.accessToken,
+                        );
+                        localStorage.setItem(
+                          'expire_date',
+                          String(expire_date.exp * 1000),
+                        );
+                        router.push('/');
+                      })
+                      .catch(err => {
+                        message.success('Login Fail');
+                      });
+                  })
+                  .catch(err => {
+                    let err_message = '';
+                    if (err.response) {
+                      if (err.response.data.message) {
+                        err_message = `, ` + err.response.data.message;
+                      }
+                    }
+                    message.warning('Register Fail' + err_message);
+                  });
+              }
+
               return true;
             }}
           >
@@ -62,12 +114,36 @@ export default function Page () {
                 },
               ]}
             />
+            <ProFormText
+              width='md'
+              name='phone'
+              label='Phone'
+              placeholder='Please input your Phone'
+              rules={[
+                {
+                  max: 8,
+                },
+                {
+                  min: 8,
+                },
+                {
+                  required: true,
+                  message: 'Please input your Phone!',
+                },
+              ]}
+            />
             <ProFormText.Password
               width='md'
               name='password'
               label='Password'
               placeholder='Please input your Password'
               rules={[
+                {
+                  max: 8,
+                },
+                {
+                  min: 8,
+                },
                 {
                   required: true,
                 },
@@ -79,6 +155,12 @@ export default function Page () {
               label='Re-Password'
               placeholder='Please input your Re-Password'
               rules={[
+                {
+                  max: 8,
+                },
+                {
+                  min: 8,
+                },
                 {
                   required: true,
                 },

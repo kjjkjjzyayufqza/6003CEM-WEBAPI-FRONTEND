@@ -5,6 +5,7 @@ import * as CryptoJS from 'crypto-js';
 import jwt_decode from 'jwt-decode';
 import { JWT } from 'next-auth/jwt';
 import { AdapterUser } from 'next-auth/adapters';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 let access_token: any;
 let refresh_token: any;
@@ -23,6 +24,21 @@ const GOOGLE_CLIENT_SECRET =
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    CredentialsProvider({
+      name: 'Sign in',
+      credentials: {
+        email: {
+          label: 'Email',
+          type: 'email',
+          placeholder: 'example@example.com',
+        },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize (credentials) {
+        const user = { id: '1', name: 'Admin', email: 'admin@admin.com' };
+        return user;
+      },
+    }),
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID as string,
       clientSecret: GOOGLE_CLIENT_SECRET as string,
@@ -71,6 +87,8 @@ export const authOptions: NextAuthOptions = {
               name: userProfile.name!,
               email: userProfile.email!,
               photo: userProfile.picture!,
+              phone: '00000000',
+              birthday: new Date(),
               password: password,
             });
             console.log('register_done', register_res);
