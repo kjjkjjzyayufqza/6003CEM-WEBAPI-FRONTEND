@@ -4,6 +4,7 @@ import {
   SignInModel,
   SignInResponseModel,
   UserModel,
+  createCatsModel,
   customRes,
   getCatsFilter,
   updateCatsModel,
@@ -51,6 +52,12 @@ instance.interceptors.response.use(
 
 export function getCats (args: getCatsFilter): Promise<customRes<CatsModel[]>> {
   return instance.get('cats', { params: args });
+}
+
+export function createCats (
+  args: createCatsModel[],
+): Promise<customRes<CatsModel>> {
+  return instance.post('cats', args);
 }
 
 export function updateCats (

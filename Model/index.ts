@@ -124,6 +124,19 @@ export interface getCatsFilter {
   pageSize?: number;
 }
 
+export interface createCatsModel {
+  name: string;
+  birthday: string;
+  gender: GenderEnum;
+  breed: CatBreedEnum;
+  photo: string;
+  about: string;
+  centre: CentreEnum;
+  adopted: string;
+  addedTime: string;
+  updatedTime: string;
+}
+
 export interface updateCatsModel {
   name: string;
   birthday: string;
