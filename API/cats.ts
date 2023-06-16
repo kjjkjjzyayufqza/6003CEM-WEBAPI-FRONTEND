@@ -6,6 +6,7 @@ import {
   UserModel,
   customRes,
   getCatsFilter,
+  updateCatsModel,
 } from 'Model';
 import axios, { AxiosResponse } from 'axios';
 import { getToken, refreshToken } from './auth';
@@ -50,4 +51,11 @@ instance.interceptors.response.use(
 
 export function getCats (args: getCatsFilter): Promise<customRes<CatsModel[]>> {
   return instance.get('cats', { params: args });
+}
+
+export function updateCats (
+  id: string,
+  args: updateCatsModel,
+): Promise<customRes<CatsModel>> {
+  return instance.put('cats/' + id, args);
 }
