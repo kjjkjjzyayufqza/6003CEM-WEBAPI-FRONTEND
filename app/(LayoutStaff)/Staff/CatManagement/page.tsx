@@ -297,7 +297,7 @@ export default function Page () {
             </div>
 
             <Footer style={{ textAlign: 'center' }}>
-              Ant Design ©2023 Created by Ant UED
+            The Pet Shelter ©2023 Created by Moovoo
             </Footer>
           </Layout>
         </Layout>

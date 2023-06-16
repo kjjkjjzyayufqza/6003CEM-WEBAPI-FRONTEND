@@ -40,33 +40,12 @@ instance.interceptors.response.use(
     return response.data;
   },
   async error => {
-    if (error.response.status === 401) {
-      if (await refreshToken()) {
-      } else {
-        localStorage.clear();
-      }
-    }
     return Promise.reject(error);
   },
 );
 
-export function getCats (args: getCatsFilter): Promise<customRes<CatsModel[]>> {
+export function getCatsPublic (
+  args: getCatsFilter,
+): Promise<customRes<CatsModel[]>> {
   return instance.get('cats', { params: args });
-}
-
-export function createCats (
-  args: createCatsModel[],
-): Promise<customRes<CatsModel>> {
-  return instance.post('cats', args);
-}
-
-export function updateCats (
-  id: string,
-  args: updateCatsModel,
-): Promise<customRes<CatsModel>> {
-  return instance.put('cats/' + id, args);
-}
-
-export function deleteCats (id: string): Promise<customRes<any>> {
-  return instance.delete('cats/' + id);
 }

@@ -1,14 +1,42 @@
 'use client';
-import { Card, Col, Pagination, Row } from 'antd';
+import { Card, Col, Pagination, Progress, Row, Tag } from 'antd';
 import Meta from 'antd/es/card/Meta';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { HeartTwoTone } from '@ant-design/icons';
 import { CatCard } from '@/components/CatCard';
-import { FilterBox } from './FilterBox';
+import { FilterBox, FilterBoxOption } from './FilterBox';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
+import { ProList } from '@ant-design/pro-components';
+import { getCats } from 'API/cats';
+import { getCatsPublic } from 'API/catsPublic';
+import { CatsModel } from 'Model';
+
+interface filterModel extends FilterBoxOption {
+  page: number;
+  pageSize: number;
+}
+
 export default function ListCatPage () {
-  const a = [1, 2, 3, 4, 5, 6, 7, 8];
-  useEffect(() => {}, []);
+  const [filter, setFilter] = useState<filterModel>();
+  const [data, setData] = useState<CatsModel[]>([]);
+  useEffect(() => {
+    getCatsPublic({
+      page: filter?.page,
+      pageSize: filter?.pageSize,
+      name: filter?.name,
+      breed: filter?.breed,
+      gender: filter?.gender,
+      adopted: filter?.adopted,
+    })
+      .then(res => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [filter]);
+
   return (
     <div>
       <div className='mb-2 flex max-w-md items-center justify-center md:mx-auto'>
@@ -25,10 +53,14 @@ export default function ListCatPage () {
         每有一隻幸運的動物離開我們的領養中心，便能空出一個位置，讓另一隻動物可以在中心等待尋找新家！
       </p>
       <div className='w-full'>
-        <FilterBox />
+        <FilterBox
+          onFilter={(value: FilterBoxOption) => {
+            console.log(value);
+          }}
+        />
       </div>
       <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-4 xl:px-0'>
-        {a.map((e, i) => {
+        {data.map((e, i) => {
           return <CatCard key={i} />;
         })}
       </div>

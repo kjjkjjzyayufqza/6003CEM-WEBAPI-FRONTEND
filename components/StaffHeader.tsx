@@ -1,7 +1,7 @@
 import { MenuProps, theme, Breadcrumb, Dropdown, Avatar } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 export const StaffHeader: FC = () => {
   const items: MenuProps['items'] = [
@@ -14,8 +14,8 @@ export const StaffHeader: FC = () => {
       label: (
         <a
           target='_blank'
-          onClick={()=>{
-            console.log("Logout")
+          onClick={() => {
+            console.log('Logout');
           }}
         >
           Logout
@@ -26,6 +26,8 @@ export const StaffHeader: FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  useEffect(() => {}, []);
 
   return (
     <Header

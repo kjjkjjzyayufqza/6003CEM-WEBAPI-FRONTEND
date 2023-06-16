@@ -49,14 +49,14 @@ export default function Page () {
                 <div className='hero h-96'>
                   <div className='hero-content text-center'>
                     <div className='max-w-md'>
-                      <h1 className='text-5xl font-bold'>Hello jojo</h1>
+                      <h1 className='text-5xl font-bold'>Hello Staff</h1>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <Footer style={{ textAlign: 'center' }}>
-              Ant Design ©2023 Created by Ant UED
+              The Pet Shelter ©2023 Created by Moovoo
             </Footer>
           </Layout>
         </Layout>

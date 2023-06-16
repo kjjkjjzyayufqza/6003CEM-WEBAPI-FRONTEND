@@ -9,7 +9,7 @@ import {
   ProFormDateTimePicker,
   ProFormRadio,
 } from '@ant-design/pro-components';
-import { getCats, updateCats } from 'API/cats';
+import { deleteCats, getCats, updateCats } from 'API/cats';
 import { CatBreedEnum, CentreEnum } from 'Model';
 import {
   Drawer,
@@ -20,6 +20,8 @@ import {
   Form,
   Upload,
   Divider,
+  Button,
+  Modal,
 } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -60,7 +62,13 @@ export const CatDetailDrawer: FC<{
       >
         Cat Profile
       </p>
-      <CatDetailForm id={id} onStart={open} />
+      <CatDetailForm
+        id={id}
+        onStart={open}
+        _onClose={() => {
+          onClose();
+        }}
+      />
     </Drawer>
   );
 };
@@ -70,10 +78,11 @@ interface CatOption {
   label: string;
 }
 
-const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
-  id,
-  onStart,
-}) => {
+const CatDetailForm: FC<{
+  id: string;
+  onStart: boolean;
+  _onClose: () => void;
+}> = ({ id, onStart, _onClose }) => {
   const formRef = useRef<ProFormInstance>();
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
@@ -147,6 +156,28 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
     }
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const deleteCat = () => {
+    deleteCats(id)
+      .then(res => {
+        message.success('Delete Done');
+        setIsModalOpen(false);
+      })
+      .catch(err => {
+        message.success('Delete Fail');
+      });
+    _onClose();
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     if (onStart) {
       getCats({ id: id })
@@ -185,6 +216,16 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
         searchConfig: {
           submitText: 'Update',
         },
+        render: props => {
+          return [
+            <Button key={0} type='primary' onClick={() => props.submit()}>
+              Update
+            </Button>,
+            <Button key={1} type='primary' onClick={showModal} danger>
+              Delete
+            </Button>,
+          ];
+        },
       }}
       onFinish={async values => {
         console.log(values);
@@ -203,6 +244,14 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
         return true;
       }}
     >
+      <Modal
+        title='Basic Modal'
+        open={isModalOpen}
+        onOk={deleteCat}
+        onCancel={handleCancel}
+      >
+        <p>Are you sure you want to delete this cat?</p>
+      </Modal>
       <ProFormText
         width='md'
         name='name'
@@ -335,7 +384,7 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
             },
           ]}
         ></ProFormDateTimePicker> */}
-        <Divider />
+      <Divider />
     </ProForm>
   );
 };
