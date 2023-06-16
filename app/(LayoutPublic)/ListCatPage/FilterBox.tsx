@@ -20,11 +20,11 @@ interface CatOption {
 }
 
 export interface FilterBoxOption {
-  name: string;
-  breed: CatBreedEnum;
-  gender: GenderEnum;
-  centre: CentreEnum;
-  adopted: boolean;
+  name?: string;
+  breed?: CatBreedEnum;
+  gender?: GenderEnum;
+  centre?: CentreEnum;
+  adopted?: boolean;
 }
 
 export const FilterBox: FC<{

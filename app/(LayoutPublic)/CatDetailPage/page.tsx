@@ -2,7 +2,7 @@
 import { Avatar, Breadcrumb, Button, Card, Col, Image, Row } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { HiOutlineIdentification } from 'react-icons/hi';
 import { FaBirthdayCake } from 'react-icons/fa';
 import { LuCat } from 'react-icons/lu';
@@ -11,6 +11,10 @@ import { BsGenderAmbiguous } from 'react-icons/bs';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
 import Link from 'next/link';
+import { CatsModel } from 'Model';
+import { getCats } from 'API/cats';
+import { getCatsPublic } from 'API/catsPublic';
+import dayjs from 'dayjs';
 export default function CatDetailPage ({
   params,
   searchParams,
@@ -18,8 +22,19 @@ export default function CatDetailPage ({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const [data, setData] = useState<CatsModel>();
   useEffect(() => {
     // console.log(params);
+    if (params.slug) {
+      console.log(params.slug);
+      getCatsPublic({ id: params.slug[0] })
+        .then(res => {
+          setData(res.data[0]);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }, []);
 
   return (
@@ -41,55 +56,51 @@ export default function CatDetailPage ({
                 {/* <Avatar size={200} src='/card_cat1.jpg' className='' /> */}
                 <Image
                   width={200}
-                  src='/card_cat1.jpg'
+                  src={data?.photo}
                   className='rounded-xl'
                   alt=''
                 />
               </div>
 
               <h2 className='card-title mb-5 text-2xl'>
-                Hello I`&apos;`m <span className='text-3xl text-indigo-500'>jojo</span>{' '}
-                !
+                Hello I&apos;m{' '}
+                <span className='text-3xl text-indigo-500'>{data?.name}</span> !
               </h2>
               <h2 className='card-title mb-1'>About Me</h2>
               <p className='mt-1 block font-medium leading-tight text-slate-500'>
-                Bella, now 12-year-old, has been waiting for her destined true
-                love for quite some time. As you can tell from the pictures, she
-                is a sweet and friendly senior dog who likes to be around people
-                and be petted. Surprisingly, a mature lady like her is still
-                pretty talkative! Whenever people pass by her room, she will let
-                out a few barks to get your attention, hoping you can be her
-                company. Besides, Bella is a very spoiled furkid who loves wet
-                food handfed by our staff. At this age, she has developed some
-                joint pain problems and needs to take medication regularly. The
-                vet also discovered a lipoma near Bella`&apos;`s stomach area.
-                Therefore, we recommend a financially stable family to adopt
-                her. If you are interested in Bella, you are welcome to visit
-                her at the centre. Date Posted: Jun 11, 2022
+                {data?.about}
               </p>
               <Row className='py-5' gutter={[20, 20]}>
                 <Col span={12}>
-                  <ColBox icon={'ID'} title={'No.'} text={'225669'} />
+                  <ColBox icon={'ID'} title={'No.'} text={data?._id ?? ''} />
                 </Col>
                 <Col span={12}>
                   <ColBox
                     icon={'Birthday'}
                     title={'Birthday'}
-                    text={'2009-10-10'}
+                    text={dayjs(data?.birthday).format('YYYY-MM-DD') ?? ''}
                   />
                 </Col>
                 <Col span={12}>
-                  <ColBox icon={'Breed'} title={'Breed'} text={'Mongrel'} />
+                  <ColBox
+                    icon={'Breed'}
+                    title={'Breed'}
+                    text={data?.breed ?? ''}
+                  />
                 </Col>
                 <Col span={12}>
                   <ColBox
                     icon={'Centre'}
                     title={'Centre'}
-                    text={'HK Homing Special Case'}
+                    text={data?.centre ?? ''}
                   />
                 </Col>
                 <Col span={12}>
-                  <ColBox icon={'Gender'} title={'Gender'} text={'Female'} />
+                  <ColBox
+                    icon={'Gender'}
+                    title={'Gender'}
+                    text={data?.gender ?? ''}
+                  />
                 </Col>
               </Row>
               <div className='rounded-lg bg-[#FAB115] p-8'>

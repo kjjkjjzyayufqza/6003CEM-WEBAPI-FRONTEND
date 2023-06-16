@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { CatBreedEnum, CentreEnum } from 'Model';
 import dayjs from 'dayjs';
 export interface CatCardModel {
+  id?: string;
   name?: string;
   birthday?: string;
   centre?: CentreEnum;
@@ -17,6 +18,7 @@ export interface CatCardModel {
 }
 
 export const CatCard: FC<CatCardModel> = ({
+  id,
   name,
   birthday,
   centre,
@@ -25,17 +27,17 @@ export const CatCard: FC<CatCardModel> = ({
   width,
 }) => {
   return (
-    <Link href={'CatDetailPage'}>
+    <Link href={'CatDetailPage/' + id}>
       <Card
         style={{ width: width }}
         className='card bg-base-100 overflow-hidden shadow-md'
         hoverable
         cover={
-          <div className='overflow-hidden'>
+          <div className='overflow-hidden '>
             <img
               alt='example'
-              src='https://cdn2.thecatapi.com/images/MTU3Njg1Mg.jpg'
-              className='transition delay-150 duration-300 ease-in-out hover:-translate-y-0 hover:scale-110 hover:bg-indigo-500'
+              src={photo}
+              className='h-48 w-96 object-cover transition delay-150 duration-300 ease-in-out hover:-translate-y-0 hover:scale-110 hover:bg-indigo-500'
             />
           </div>
         }

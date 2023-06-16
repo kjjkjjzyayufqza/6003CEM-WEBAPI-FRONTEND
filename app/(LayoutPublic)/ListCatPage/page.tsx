@@ -12,12 +12,14 @@ import { getCatsPublic } from 'API/catsPublic';
 import { CatsModel } from 'Model';
 
 interface filterModel extends FilterBoxOption {
-  page: number;
-  pageSize: number;
+  page?: number;
+  pageSize?: number;
 }
 
 export default function ListCatPage () {
-  const [filter, setFilter] = useState<filterModel>();
+  const [filter, setFilter] = useState<filterModel>({
+    pageSize: 8,
+  });
   const [data, setData] = useState<CatsModel[]>([]);
   useEffect(() => {
     getCatsPublic({
@@ -61,15 +63,27 @@ export default function ListCatPage () {
       </div>
       <div className='animate-fade-up my-10 grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-4 xl:px-0'>
         {data.map((e, i) => {
-          return <CatCard key={i} />;
+          return (
+            <CatCard
+              key={i}
+              id={e._id}
+              name={e.name}
+              birthday={e.birthday}
+              centre={e.centre}
+              breed={e.breed}
+              photo={e.photo}
+            />
+          );
         })}
       </div>
       <div className='hero-content'>
         <Pagination
-          onChange={(page: number, pageSize: number) => {}}
+          onChange={(page: number, pageSize: number) => {
+            setFilter({ page: page, pageSize: pageSize });
+          }}
           defaultCurrent={1}
           total={500}
-          pageSize={8}
+          pageSize={filter?.pageSize}
           pageSizeOptions={[16, 32, 64]}
         />
       </div>
