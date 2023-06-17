@@ -1,17 +1,9 @@
 import {
   CatsModel,
-  CreateUserModel,
-  FavouritesModel,
-  SignInModel,
-  SignInResponseModel,
-  UserModel,
-  createCatsModel,
   customRes,
   getCatsFilter,
-  updateCatsModel,
 } from 'Model';
-import axios, { AxiosResponse } from 'axios';
-import { getToken, refreshToken } from './auth';
+import axios from 'axios';
 
 const instance = axios.create({
   baseURL:
@@ -25,7 +17,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async config => {
     // 在发送请求之前做些什么
-    config.headers.Authorization = (await getToken()) as any;
     return config;
   },
   function (error) {
@@ -41,23 +32,12 @@ instance.interceptors.response.use(
     return response.data;
   },
   async error => {
-    if (error.response.status === 401) {
-      if (await refreshToken()) {
-      } else {
-        localStorage.clear();
-      }
-    }
     return Promise.reject(error);
   },
 );
 
-export function getfavouritesCat (): Promise<customRes<FavouritesModel>> {
-  return instance.get('/users/Favourites');
-}
-
-export function addfavouritesCat (id: string[]): Promise<customRes<any[]>> {
-  const data = {
-    Favourites: id,
-  };
-  return instance.post('/users/Favourites', data);
+export function getCatsPublic (
+  args: getCatsFilter,
+): Promise<customRes<CatsModel[]>> {
+  return instance.get('cats', { params: args });
 }

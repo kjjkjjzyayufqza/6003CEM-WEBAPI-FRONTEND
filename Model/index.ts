@@ -163,3 +163,9 @@ export interface CatsModel {
   addedTime: string;
   updatedTime: string;
 }
+
+export interface FavouritesModel {
+  _id: string;
+  userId: string;
+  Favourites: string[];
+}

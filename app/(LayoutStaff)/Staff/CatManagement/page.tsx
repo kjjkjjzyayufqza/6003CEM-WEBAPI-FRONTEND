@@ -4,19 +4,12 @@ import {
   Breadcrumb,
   Button,
   ConfigProvider,
-  Drawer,
-  Form,
   Layout,
-  Progress,
   Tag,
-  Upload,
-  UploadFile,
-  message,
   theme,
 } from 'antd';
-import { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleProvider } from '@ant-design/cssinjs';
-import enUS from 'antd/locale/en_US';
 import Sider from 'antd/es/layout/Sider';
 import { Header, Footer } from 'antd/es/layout/layout';
 import { usePathname, useRouter } from 'next/navigation';
@@ -25,25 +18,14 @@ import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ProColumns,
-  ProForm,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormInstance,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
-  ProFormUploadDragger,
   ProTable,
 } from '@ant-design/pro-components';
 import { CatBreedEnum, CatsModel, CentreEnum, GenderEnum } from 'Model';
-import { getCats, updateCats } from 'API/cats';
+import { getCats } from 'API/cats';
 import Link from 'next/link';
-import dayjs from 'dayjs';
-import { RcFile, UploadProps } from 'antd/es/upload';
-import axios from 'axios';
 import { CatDetailDrawer } from '../../../../components/CatDetailDrawer';
 import { CreateCatDetailDrawer } from '@/components/CreateCatDetailDrawer';
+import enUS from 'antd/locale/en_US';
 
 type GithubIssueItem = CatsModel;
 

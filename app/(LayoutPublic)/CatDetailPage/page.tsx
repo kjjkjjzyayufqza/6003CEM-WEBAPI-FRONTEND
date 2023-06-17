@@ -13,8 +13,8 @@ import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
 import Link from 'next/link';
 import { CatsModel } from 'Model';
 import { getCats } from 'API/cats';
-import { getCatsPublic } from 'API/catsPublic';
 import dayjs from 'dayjs';
+import { getCatsPublic } from 'API/noAuth';
 export default function CatDetailPage ({
   params,
   searchParams,

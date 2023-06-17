@@ -8,8 +8,9 @@ import { FilterBox, FilterBoxOption } from './FilterBox';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
 import { ProList } from '@ant-design/pro-components';
 import { getCats } from 'API/cats';
-import { getCatsPublic } from 'API/catsPublic';
 import { CatsModel } from 'Model';
+import Balancer from 'react-wrap-balancer';
+import { getCatsPublic } from 'API/noAuth';
 
 interface filterModel extends FilterBoxOption {
   page?: number;
@@ -31,7 +32,7 @@ export default function ListCatPage () {
       adopted: filter?.adopted,
     })
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setData(res.data);
       })
       .catch(err => {
@@ -49,15 +50,16 @@ export default function ListCatPage () {
           ]}
         />
       </div>
-      <h1 className='mb-20 text-center text-5xl font-bold'>待領養動物</h1>
-      <p className='mb-5 text-center'>
-        一次領養，拯救兩個生命。
-        每有一隻幸運的動物離開我們的領養中心，便能空出一個位置，讓另一隻動物可以在中心等待尋找新家！
-      </p>
+      <h1 className='mb-20 text-center text-5xl font-bold'>Cat for Adoption</h1>
+      <Balancer className='mb-5 text-center'>
+        One adoption saves two lives. Every time a lucky animal leaves our
+        adoption center, a place will be vacated so that another animal can wait
+        in the center to find a new home!
+      </Balancer>
       <div className='w-full'>
         <FilterBox
           onFilter={(value: FilterBoxOption) => {
-            console.log(value);
+            setFilter({ ...filter, ...value });
           }}
         />
       </div>
@@ -84,7 +86,7 @@ export default function ListCatPage () {
           defaultCurrent={1}
           total={500}
           pageSize={filter?.pageSize}
-          pageSizeOptions={[16, 32, 64]}
+          pageSizeOptions={[8, 16, 32, 64]}
         />
       </div>
     </div>

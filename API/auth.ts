@@ -7,6 +7,7 @@ import {
   UserModel,
   customRes,
 } from 'Model';
+import { message } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 const instance = axios.create({
@@ -87,7 +88,73 @@ export async function refreshToken () {
   var ischeck = false;
   if (localStorage.getItem('refresh_token')) {
     await instance
-      .post<SignInResponseModel>('auth/Refresh', {
+      .post<SignInResponseModel>('auth/RefreshPublic', {
+        refreshToken: localStorage.getItem('refresh_token'),
+      })
+      .then(res => {
+        const expire_date: any = jwt_decode(res.data.accessToken);
+        localStorage.setItem('expire_date', String(expire_date.exp * 1000));
+        localStorage.setItem('access_token', res.data.accessToken);
+        localStorage.setItem('refresh_token', res.data.refreshToken);
+        ischeck = true;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  return ischeck;
+}
+
+//----------------------------------------------------------------
+
+let _isRefeshingToken_Staff = false;
+let _pendingRefresh_Staff: any = [];
+
+export async function getTokenStaff () {
+  return new Promise(async (solved, reject) => {
+    // console.log(localStorage.getItem('expire_date'), ' ', new Date().valueOf())
+    if (
+      parseInt(localStorage.getItem('expire_date') || '0') >
+      new Date().valueOf()
+    ) {
+      solved('Bearer' + ' ' + localStorage.getItem('access_token'));
+    } else if (
+      !localStorage.getItem('access_token') &&
+      !localStorage.getItem('refresh_token')
+    ) {
+      solved('null');
+      window.location.href = '/';
+    } else {
+      if (!_isRefeshingToken_Staff) {
+        _isRefeshingToken_Staff = true;
+        if (await refreshTokenStaff()) {
+          _isRefeshingToken_Staff = false;
+          getTokenStaff()
+            .then(token => {
+              solved(token);
+              _pendingRefresh_Staff.forEach((element: any) => {
+                element(token);
+              });
+              _pendingRefresh_Staff = [];
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          localStorage.clear();
+        }
+      } else {
+        _pendingRefresh_Staff.push(solved);
+      }
+    }
+  });
+}
+
+export async function refreshTokenStaff () {
+  var ischeck = false;
+  if (localStorage.getItem('refresh_token')) {
+    await instance
+      .post<SignInResponseModel>('auth/RefreshStaff', {
         refreshToken: localStorage.getItem('refresh_token'),
       })
       .then(res => {
@@ -119,7 +186,7 @@ export function SignInStaff (
 export function RegisterPublic (
   args: CreateUserModel,
 ): Promise<customRes<SignInResponseModel>> {
-  console.log(args)
+  console.log(args);
   return instance.post('auth/RegisterPublic', args);
 }
 

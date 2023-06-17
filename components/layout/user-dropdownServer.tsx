@@ -7,6 +7,7 @@ import Popover from '@/components/shared/popover';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from 'antd';
+import { HeartOutlined, HeartTwoTone } from '@ant-design/icons';
 export default function UserDropdownServer () {
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -22,7 +23,13 @@ export default function UserDropdownServer () {
               <LayoutDashboard className='h-4 w-4' />
               <p className='text-sm'>Dashboard</p>
             </Link>
-            <Button onClick={() => {}}>test</Button>
+            <Link
+              href={'MemberPage/Favourites'}
+              className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
+            >
+              <HeartOutlined className='h-4 w-4' />
+              <p className='text-sm'>Favourites</p>
+            </Link>
             <button
               className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
               onClick={() => {
