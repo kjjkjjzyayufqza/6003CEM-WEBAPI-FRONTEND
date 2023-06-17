@@ -198,3 +198,13 @@ export interface NewsModel {
   catPhoto: string;
   time: string;
 }
+
+export interface BookingModel {
+  name: string;
+  email: string;
+  phone: string;
+  gender: GenderEnum;
+  catId: string;
+  bookingTime: Date;
+  centre: CentreEnum;
+}

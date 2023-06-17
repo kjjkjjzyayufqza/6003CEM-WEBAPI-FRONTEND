@@ -1,4 +1,10 @@
-import { CatsModel, NewsModel, customRes, getCatsFilter } from 'Model';
+import {
+  BookingModel,
+  CatsModel,
+  NewsModel,
+  customRes,
+  getCatsFilter,
+} from 'Model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -40,4 +46,10 @@ export function getCatsPublic (
 
 export function getNews (): Promise<customRes<NewsModel[]>> {
   return instance.get('news');
+}
+
+export function createBooking (
+  args: BookingModel,
+): Promise<customRes<BookingModel>> {
+  return instance.post('userBooking', args);
 }

@@ -8,30 +8,57 @@ import {
   ProFormDatePicker,
   ProFormDateRangePicker,
   ProFormDigit,
+  ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-components';
 import { ConfigProvider, Form, message } from 'antd';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import enUS from 'antd/locale/en_US';
 import Balancer from 'react-wrap-balancer';
 import { CatCard } from '@/components/CatCard';
 import { Image } from 'antd';
-import { CentreEnum, GenderEnum } from 'Model';
+import {
+  BookingModel,
+  CatsModel,
+  CentreEnum,
+  GenderEnum,
+  PublicUserModel,
+} from 'Model';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
-export default function AppointmentPage ({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+import { getCats } from 'API/staff';
+import { getCurrentUserPublic } from 'API/publicUser';
+import { createBooking } from 'API/noAuth';
+import { useRouter } from 'next/navigation';
+export default function AppointmentPage ({ params }: { params: any }) {
   const formRef = useRef<ProFormInstance>();
+  const router = useRouter();
+  const [catData, setCatData] = useState<CatsModel>();
+  const [userData, setUserData] = useState<PublicUserModel>();
 
   useEffect(() => {
-    console.log(params.slug);
+    console.log(params);
+    getCats({ id: params })
+      .then(res => {
+        if (res.data.length >= 1) {
+          setCatData(res.data[0]);
+        } else {
+          router.push('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        router.push('/');
+      });
+    getCurrentUserPublic()
+      .then(res => {
+        setUserData(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -48,13 +75,21 @@ export default function AppointmentPage ({
         </h1>
         <h1 className='mb-20 text-center text-2xl font-bold'>Meet the cats</h1>
         <ProCard>
-          <StepsForm<{
-            name: string;
-          }>
+          <StepsForm<BookingModel>
             formRef={formRef}
             onFinish={async values => {
-              console.log(values);
-              message.success('提交成功');
+              // console.log(values);
+              values.catId = catData?._id!;
+              createBooking(values)
+                .then(res => {
+                  // console.log('Done');
+                  message.success('Create Done');
+                  router.push('/');
+                })
+                .catch(err => {
+                  console.log(err);
+                  message.warning('Create Fail');
+                });
             }}
             formProps={{
               validateMessages: {
@@ -128,44 +163,56 @@ export default function AppointmentPage ({
               {/* <div className='animate-fade-up my-10 w-1/2 items-center justify-center xl:px-0'>
                 <CatCard />
               </div> */}
-              <div className='animate-fade-up my-10 flex w-full items-center justify-center xl:px-0'>
-                <CatCard width={400} />
+              <div className='animate-fade-up my-10 flex w-full max-w-xl items-center justify-center xl:px-0'>
+                <CatCard
+                  width={300}
+                  name={catData?.name}
+                  photo={catData?.photo}
+                  birthday={catData?.birthday}
+                  centre={catData?.centre}
+                  breed={catData?.breed}
+                  disableAction
+                />
               </div>
               <p className=' mb-5 text-center text-lg'>
                 Please confirm that the information is correct and proceed to
                 the next step.
               </p>
             </StepsForm.StepForm>
-            <StepsForm.StepForm<{
-              checkbox: string;
-            }>
+            <StepsForm.StepForm<{}>
               name='checkbox'
               title='Select date and confirmation center'
               stepProps={{
                 description:
                   'Please select the date you want to make an appointment, and please confirm the appointment center',
               }}
-              onFinish={async () => {
+              onFinish={async value => {
                 console.log(formRef.current?.getFieldsValue());
                 return true;
               }}
             >
-              <ProFormSelect
+              <ProFormSelect<BookingModel>
                 name='centre'
                 label='Centre'
                 width={'md'}
                 valueEnum={CentreEnum}
                 initialValue={CentreEnum.KwunTong}
-                placeholder='Please select a country'
+                placeholder='Please select a centre'
                 rules={[
-                  { required: true, message: 'Please select your country!' },
+                  { required: true, message: 'Please select your centre!' },
                 ]}
                 disabled
               ></ProFormSelect>
               <ProFormDatePicker
-                name='bookingDateTime'
+                name='bookingTime'
                 label='Appointment Time'
                 width='lg'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select Appointment Time!',
+                  },
+                ]}
               />
             </StepsForm.StepForm>
             <StepsForm.StepForm
@@ -177,11 +224,12 @@ export default function AppointmentPage ({
               }}
             >
               <ProFormText
-                name={'userName'}
+                name={'name'}
                 label='Name'
                 rules={[
                   {
                     required: true,
+                    message: 'Please input Name',
                   },
                 ]}
               />
@@ -191,26 +239,21 @@ export default function AppointmentPage ({
                 rules={[
                   {
                     required: true,
+                    message: 'Please input Email',
                   },
-                ]}
-              />
-              <ProFormDigit
-                label='Age'
-                name='age'
-                min={1}
-                max={200}
-                rules={[
                   {
-                    required: true,
+                    type: 'email',
                   },
                 ]}
               />
-              <ProFormCheckbox.Group
+
+              <ProFormRadio.Group
                 name='gender'
                 label='Gender'
                 rules={[
                   {
                     required: true,
+                    message: 'Please input Gender',
                   },
                 ]}
                 options={Object.values(GenderEnum)}
@@ -221,6 +264,13 @@ export default function AppointmentPage ({
                 rules={[
                   {
                     required: true,
+                    message: 'Please input Phone',
+                  },
+                  {
+                    min: 8,
+                  },
+                  {
+                    max: 8,
                   },
                 ]}
               />

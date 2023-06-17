@@ -17,6 +17,7 @@ export interface CatCardModel {
   breed?: CatBreedEnum;
   photo?: string;
   width?: number;
+  disableAction?: boolean;
 }
 
 export const CatCard: FC<CatCardModel> = ({
@@ -27,6 +28,7 @@ export const CatCard: FC<CatCardModel> = ({
   breed,
   photo,
   width,
+  disableAction,
 }) => {
   const router = useRouter();
   return (
@@ -43,54 +45,63 @@ export const CatCard: FC<CatCardModel> = ({
           />
         </div>
       }
-      actions={[
-        <HeartTwoTone
-          key='setting'
-          onClick={() => {
-            getfavouritesCat()
-              .then(res => {
-                console.log(res);
-                if (res.data) {
-                  if (!res.data?.Favourites?.includes(id!)) {
-                    const oldItem: string[] = [id!, ...res.data?.Favourites];
-                    addfavouritesCat(oldItem)
-                      .then(adRes => {
-                        message.success(
-                          'Cats have been added to the Favorites list',
-                        );
-                        console.log(adRes);
-                      })
-                      .catch(adErr => {
-                        console.log(adErr);
-                      });
-                  } else {
-                    message.warning('Cats are already on the Favorites list');
-                  }
-                } else {
-                  addfavouritesCat([id!])
-                    .then(adRes => {
-                      message.success(
-                        'Cats have been added to the Favorites list',
-                      );
-                      console.log(adRes);
+      actions={
+        !disableAction
+          ? [
+              <HeartTwoTone
+                key='setting'
+                onClick={() => {
+                  getfavouritesCat()
+                    .then(res => {
+                      console.log(res);
+                      if (res.data) {
+                        if (!res.data?.Favourites?.includes(id!)) {
+                          const oldItem: string[] = [
+                            id!,
+                            ...res.data?.Favourites,
+                          ];
+                          addfavouritesCat(oldItem)
+                            .then(adRes => {
+                              message.success(
+                                'Cats have been added to the Favorites list',
+                              );
+                              console.log(adRes);
+                            })
+                            .catch(adErr => {
+                              console.log(adErr);
+                            });
+                        } else {
+                          message.warning(
+                            'Cats are already on the Favorites list',
+                          );
+                        }
+                      } else {
+                        addfavouritesCat([id!])
+                          .then(adRes => {
+                            message.success(
+                              'Cats have been added to the Favorites list',
+                            );
+                            console.log(adRes);
+                          })
+                          .catch(adErr => {
+                            console.log(adErr);
+                          });
+                      }
                     })
-                    .catch(adErr => {
-                      console.log(adErr);
+                    .catch(err => {
+                      console.log(err);
                     });
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          }}
-        />,
-        <EyeTwoTone
-          key='eye'
-          onClick={() => {
-            router.push('CatDetailPage/' + id);
-          }}
-        />,
-      ]}
+                }}
+              />,
+              <EyeTwoTone
+                key='eye'
+                onClick={() => {
+                  router.push('CatDetailPage/' + id);
+                }}
+              />,
+            ]
+          : []
+      }
     >
       <Meta
         title={
