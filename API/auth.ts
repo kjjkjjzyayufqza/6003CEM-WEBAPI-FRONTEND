@@ -3,12 +3,9 @@ import {
   CreateUserModel,
   SignInModel,
   SignInResponseModel,
-  SignUpModel,
-  UserModel,
   customRes,
 } from 'Model';
-import { message } from 'antd';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 const instance = axios.create({
   baseURL:
@@ -123,7 +120,7 @@ export async function getTokenStaff () {
       !localStorage.getItem('refresh_token')
     ) {
       solved('null');
-      window.location.href = '/';
+      window.location.href = '/Staff/Login';
     } else {
       if (!_isRefeshingToken_Staff) {
         _isRefeshingToken_Staff = true;
@@ -191,7 +188,12 @@ export function RegisterPublic (
 }
 
 export function RegisterStaff (
+  centerCode: string,
   args: CreateStaffModel,
 ): Promise<customRes<SignInResponseModel>> {
-  return instance.post('auth/RegisterStaff', args);
+  const data = {
+    ...args,
+    role: 'Staff',
+  };
+  return instance.post('auth/RegisterStaff/' + centerCode, data);
 }

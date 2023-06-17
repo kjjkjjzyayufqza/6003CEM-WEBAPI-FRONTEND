@@ -1,7 +1,9 @@
-import { MenuProps, theme, Breadcrumb, Dropdown, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { getCurrentUser } from 'API/staff';
+import { MenuProps, theme, Breadcrumb, Dropdown, Avatar, Button } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 export const StaffHeader: FC = () => {
   const items: MenuProps['items'] = [
@@ -27,7 +29,18 @@ export const StaffHeader: FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  useEffect(() => {}, []);
+  const [name, setName] = useState<string>();
+
+  useEffect(() => {
+    getCurrentUser()
+      .then(res => {
+        // console.log(res.data);
+        setName(res.data.name);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Header
@@ -48,9 +61,23 @@ export const StaffHeader: FC = () => {
           ]}
         />
       </div>
-      <div>
+      <div className='flex items-center justify-center'>
+        <p className='text-xl'>{name}</p>
         <Dropdown menu={{ items }} placement='bottomRight' arrow>
-          <Avatar src={'/card_cat1.jpg'} size={'large'}></Avatar>
+          <div className='ml-5'>
+            <Button
+              shape='circle'
+              icon={
+                // <Avatar
+                //   src={
+                //     'https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg'
+                //   }
+                //   size={'large'}
+                // ></Avatar>
+                <UserOutlined />
+              }
+            ></Button>
+          </div>
         </Dropdown>
       </div>
     </Header>

@@ -21,6 +21,7 @@ import { StyleProvider } from '@ant-design/cssinjs';
 import { SignInStaff } from 'API/auth';
 import { useRouter } from 'next/navigation';
 import jwt_decode from 'jwt-decode';
+import * as CryptoJS from 'crypto-js';
 
 export default function Page () {
   const router = useRouter();
@@ -41,7 +42,10 @@ export default function Page () {
             subTitle='Staff Platform'
             onFinish={async value => {
               console.log(value);
-              SignInStaff({ email: value.email, password: value.password })
+              SignInStaff({
+                email: value.email,
+                password: CryptoJS.SHA256(value.password).toString(),
+              })
                 .then(res => {
                   console.log(res);
                   message.success('Login Done');

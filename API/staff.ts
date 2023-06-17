@@ -1,12 +1,6 @@
-import {
-  CreateUserModel,
-  SignInModel,
-  SignInResponseModel,
-  UserModel,
-  customRes,
-} from 'Model';
-import axios, { AxiosResponse } from 'axios';
-import { getToken, refreshToken } from './auth';
+import { CreateUserModel, StaffUserModel, customRes } from 'Model';
+import axios from 'axios';
+import { getTokenStaff, refreshToken, refreshTokenStaff } from './auth';
 
 const instance = axios.create({
   baseURL:
@@ -20,7 +14,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async config => {
     // 在发送请求之前做些什么
-    config.headers.Authorization = (await getToken()) as any;
+    config.headers.Authorization = (await getTokenStaff()) as any;
     return config;
   },
   function (error) {
@@ -37,7 +31,7 @@ instance.interceptors.response.use(
   },
   async error => {
     if (error.response.status === 401) {
-      if (await refreshToken()) {
+      if (await refreshTokenStaff()) {
       } else {
         localStorage.clear();
       }
@@ -56,8 +50,8 @@ export function getAllUserBooking (args: {
   return instance.get('userBooking', { params: args });
 }
 
-export function getCurrentUser (): Promise<customRes<UserModel>> {
-  return instance.get('users');
+export function getCurrentUser (): Promise<customRes<StaffUserModel>> {
+  return instance.get('staff-user');
 }
 
 export function Logout (): Promise<customRes<any>> {

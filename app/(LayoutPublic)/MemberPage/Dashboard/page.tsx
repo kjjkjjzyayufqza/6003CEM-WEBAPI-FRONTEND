@@ -17,11 +17,14 @@ import {
   UploadProps,
   message,
 } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import enUS from 'antd/locale/en_US';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 import Balancer from 'react-wrap-balancer';
+import { getCurrentUserPublic, updateUserPublic } from 'API/publicUser';
+import { updateCats } from 'API/cats';
+import * as CryptoJS from 'crypto-js';
 
 export default function Page () {
   const formRef = useRef<ProFormInstance>();
@@ -84,11 +87,37 @@ export default function Page () {
     }
   };
 
+  useEffect(() => {
+    getCurrentUserPublic()
+      .then(res => {
+        if (res.data.photo) {
+          setFileList([
+            {
+              uid: '-1',
+              name: 'image.png',
+              status: 'done',
+              url: res.data.photo,
+            },
+          ]);
+        }
+        formRef?.current?.setFieldsValue({
+          name: res.data.name,
+          email: res.data.email,
+          gender: res.data.gender,
+          birthday: res.data.birthday,
+          phone: res.data.phone,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <ConfigProvider locale={enUS}>
       <StyleProvider hashPriority='high'>
-        <h1 className='text-2xl font-bold my-8'>
-          <Balancer>Favorites</Balancer>
+        <h1 className='my-8 text-2xl font-bold'>
+          <Balancer>User Profile</Balancer>
         </h1>
         <ProForm
           title='Cat Form'
@@ -108,25 +137,69 @@ export default function Page () {
           }}
           onFinish={async values => {
             console.log(values);
+            values.email = undefined;
+            if (values.password) {
+              values.password = CryptoJS.SHA256(values.password).toString();
+            } else {
+              values.password = undefined;
+            }
 
+            if (uploadImageUrl) {
+              values.photo = uploadImageUrl;
+            } else {
+              values.photo = undefined;
+            }
+            updateUserPublic(values)
+              .then(res => {
+                message.success("Update Done")
+                console.log(res.data);
+              })
+              .catch(err => {
+                message.success("Update Fail")
+                console.log(err);
+              });
             return true;
           }}
         >
           <ProFormText
+            disabled
+            width='md'
+            name='email'
+            label='Email'
+            placeholder='Please input Email'
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          />
+          <ProFormText
             width='md'
             name='name'
-            label='Cat Name'
-            placeholder='Please input Cat Name'
+            label='Name'
+            placeholder='Please input Name'
             rules={[
               {
                 required: true,
               },
             ]}
           />
+          <ProFormText.Password
+            width='md'
+            name='password'
+            label='New Passowrd (Option) '
+            placeholder='Please input Passowrd'
+            rules={[
+              {
+                min: 8,
+                message: 'Password must more then 8',
+              },
+            ]}
+          />
           <ProFormSelect
             width='md'
             name='gender'
-            label='Cat Gender'
+            label='Gender'
             options={[
               {
                 value: 'Male',
@@ -137,34 +210,14 @@ export default function Page () {
                 label: 'Female',
               },
             ]}
-            placeholder='Please input Cat Gender'
+            placeholder='Please input Gender'
             rules={[
               {
                 required: true,
               },
             ]}
           />
-          <ProFormSelect
-            width='md'
-            name='gender'
-            label='Cat Gender'
-            options={[
-              {
-                value: 'Male',
-                label: 'Male',
-              },
-              {
-                value: 'Female',
-                label: 'Female',
-              },
-            ]}
-            placeholder='Please input Cat Gender'
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          />
+
           <ProFormDatePicker
             name='birthday'
             label='Birthday'

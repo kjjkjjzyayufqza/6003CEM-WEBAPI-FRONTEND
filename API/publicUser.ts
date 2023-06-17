@@ -1,5 +1,7 @@
 import {
-  FavouritesModel,
+  CreateUserModel,
+  PublicUserModel,
+  UpdateUserModel,
   customRes,
 } from 'Model';
 import axios from 'axios';
@@ -43,13 +45,16 @@ instance.interceptors.response.use(
   },
 );
 
-export function getfavouritesCat (): Promise<customRes<FavouritesModel>> {
-  return instance.get('/users/Favourites');
+export function getCurrentUserPublic (): Promise<customRes<PublicUserModel>> {
+  return instance.get('users');
 }
 
-export function addfavouritesCat (id: string[]): Promise<customRes<any[]>> {
-  const data = {
-    Favourites: id,
-  };
-  return instance.post('/users/Favourites', data);
+export function updateUserPublic (
+  args: UpdateUserModel,
+): Promise<customRes<PublicUserModel>> {
+  return instance.put('users', args);
+}
+
+export function Logout (): Promise<customRes<any>> {
+  return instance.get('auth/logout');
 }

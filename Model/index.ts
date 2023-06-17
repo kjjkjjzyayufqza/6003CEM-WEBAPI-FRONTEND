@@ -89,17 +89,37 @@ export interface SignUpModel {
   role: 'Staff';
 }
 
-export interface UserModel {
+export interface StaffUserModel {
   _id: string;
   name: string;
   email: string;
   role: string;
 }
 
+export interface PublicUserModel {
+  _id: string;
+  name: string;
+  email: string;
+  gender: GenderEnum;
+  birthday: string;
+  photo: string;
+  phone: string;
+}
+
 export interface CreateUserModel {
   name: string;
   photo: string;
   email: string;
+  gender: GenderEnum;
+  phone: string;
+  birthday: Date;
+  password: string;
+}
+
+export interface UpdateUserModel {
+  name: string;
+  photo: string;
+  gender: GenderEnum;
   phone: string;
   birthday: Date;
   password: string;
@@ -109,6 +129,7 @@ export interface CreateStaffModel {
   code: string;
   name: string;
   email: string;
+  gender: GenderEnum;
   password: string;
   role: 'Staff';
 }

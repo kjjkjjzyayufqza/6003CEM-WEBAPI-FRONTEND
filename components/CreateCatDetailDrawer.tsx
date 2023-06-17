@@ -186,11 +186,13 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
           return false;
         }
         console.log(values);
-        createCats([{
-          ...values,
-          updatedTime: dayjs(),
-          photo: uploadImageUrl,
-        }])
+        createCats([
+          {
+            ...values,
+            updatedTime: dayjs(),
+            photo: uploadImageUrl,
+          },
+        ])
           .then(res => {
             message.success('Create successful');
             console.log(res);
@@ -334,6 +336,9 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
           ]}
         ></ProFormDateTimePicker> */}
       <Divider />
+      <p className='mb-3'>
+        When a cat is created, a news notification is created at the same time.
+      </p>
     </ProForm>
   );
 };

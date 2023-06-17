@@ -4,6 +4,7 @@ import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   ProForm,
   ProFormDatePicker,
+  ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
 import { Alert, Button, ConfigProvider, message } from 'antd';
@@ -46,6 +47,7 @@ export default function Page () {
                   phone: values.phone,
                   birthday: values.birthday,
                   password: password,
+                  gender: values.gender,
                 })
                   .then(res => {
                     message.success('Register Done');
@@ -67,6 +69,7 @@ export default function Page () {
                           'expire_date',
                           String(expire_date.exp * 1000),
                         );
+                        localStorage.setItem('isServerLogin', 'True');
                         router.push('/');
                       })
                       .catch(err => {
@@ -111,6 +114,27 @@ export default function Page () {
                 {
                   required: true,
                   message: 'Please input your Email!',
+                },
+              ]}
+            />
+            <ProFormSelect
+              width='md'
+              name='gender'
+              label='Gender'
+              options={[
+                {
+                  value: 'Male',
+                  label: 'Male',
+                },
+                {
+                  value: 'Female',
+                  label: 'Female',
+                },
+              ]}
+              placeholder='Please input Gender'
+              rules={[
+                {
+                  required: true,
                 },
               ]}
             />
