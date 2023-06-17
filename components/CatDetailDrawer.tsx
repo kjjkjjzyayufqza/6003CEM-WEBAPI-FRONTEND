@@ -9,7 +9,7 @@ import {
   ProFormDateTimePicker,
   ProFormRadio,
 } from '@ant-design/pro-components';
-import { deleteCats, getCats, updateCats } from 'API/cats';
+import { deleteCats, getCats, updateCats } from 'API/staff';
 import { CatBreedEnum, CentreEnum } from 'Model';
 import {
   Drawer,
@@ -31,7 +31,8 @@ export const CatDetailDrawer: FC<{
   id: string;
   _open: boolean;
   _onClose: () => void;
-}> = ({ id, _open = false, _onClose }) => {
+  staffCentre: CentreEnum;
+}> = ({ id, _open = false, _onClose, staffCentre }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ export const CatDetailDrawer: FC<{
         _onClose={() => {
           onClose();
         }}
+        staffCentre={staffCentre}
       />
     </Drawer>
   );
@@ -82,7 +84,8 @@ const CatDetailForm: FC<{
   id: string;
   onStart: boolean;
   _onClose: () => void;
-}> = ({ id, onStart, _onClose }) => {
+  staffCentre: CentreEnum;
+}> = ({ id, onStart, _onClose, staffCentre }) => {
   const formRef = useRef<ProFormInstance>();
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
@@ -197,7 +200,7 @@ const CatDetailForm: FC<{
             birthday: res.data[0].birthday,
             photo: res.data[0].photo,
             about: res.data[0].about,
-            centre: res.data[0].centre,
+            centre: staffCentre,
             addedTime: res.data[0].addedTime,
             adopted: res.data[0].adopted,
           });
@@ -327,11 +330,12 @@ const CatDetailForm: FC<{
         ]}
       ></ProFormTextArea>
       <ProFormSelect
+        disabled
         width='md'
         name='centre'
         label='Cat Centre'
         options={centreOptions}
-        placeholder='Please input Cat Breed'
+        placeholder='Please input Cat Centre'
         rules={[
           {
             required: true,

@@ -1,7 +1,5 @@
 'use client';
-import { Avatar, Breadcrumb, Button, Card, Col, Image, Row } from 'antd';
-import Meta from 'antd/es/card/Meta';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Button, Col, Image, Row } from 'antd';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { HiOutlineIdentification } from 'react-icons/hi';
 import { FaBirthdayCake } from 'react-icons/fa';
@@ -12,7 +10,6 @@ import { StyleProvider } from '@ant-design/cssinjs';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
 import Link from 'next/link';
 import { CatsModel } from 'Model';
-import { getCats } from 'API/cats';
 import dayjs from 'dayjs';
 import { getCatsPublic } from 'API/noAuth';
 export default function CatDetailPage ({
@@ -115,7 +112,7 @@ export default function CatDetailPage ({
                   Visit our Adoption Center or call our attribution department
                   at 2232 5529 for more information!
                 </p>
-                <Link href={'AppointmentPage'}>
+                <Link href={'AppointmentPage/' + params.slug}>
                   <Button
                     type={'primary'}
                     className='mt-4'

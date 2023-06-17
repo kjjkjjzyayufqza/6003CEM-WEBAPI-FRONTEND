@@ -14,14 +14,14 @@ export const StaffHeader: FC = () => {
     {
       key: '2',
       label: (
-        <a
-          target='_blank'
+        <Link
+          href={'/Staff/Login'}
           onClick={() => {
-            console.log('Logout');
+            localStorage.clear();
           }}
         >
           Logout
-        </a>
+        </Link>
       ),
     },
   ];

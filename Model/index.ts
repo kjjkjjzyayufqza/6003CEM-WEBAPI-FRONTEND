@@ -190,3 +190,11 @@ export interface FavouritesModel {
   userId: string;
   Favourites: string[];
 }
+
+export interface NewsModel {
+  catId: string;
+  catName: string;
+  catAbout: string;
+  catPhoto: string;
+  time: string;
+}

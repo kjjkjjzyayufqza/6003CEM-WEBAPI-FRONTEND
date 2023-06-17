@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { JWT } from 'next-auth/jwt';
 import { AdapterUser } from 'next-auth/adapters';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { GenderEnum } from 'Model';
 
 let access_token: any;
 let refresh_token: any;
@@ -90,6 +91,7 @@ export const authOptions: NextAuthOptions = {
               phone: '00000000',
               birthday: new Date(),
               password: password,
+              gender: GenderEnum.Male,
             });
             console.log('register_done', register_res);
             return true;

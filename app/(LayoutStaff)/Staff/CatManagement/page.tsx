@@ -15,18 +15,15 @@ import { Header, Footer } from 'antd/es/layout/layout';
 import { usePathname, useRouter } from 'next/navigation';
 import WebMenu from '@/components/WebMenu';
 import { PlusOutlined } from '@ant-design/icons';
-import {
-  ActionType,
-  ProColumns,
-  ProTable,
-} from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { CatBreedEnum, CatsModel, CentreEnum, GenderEnum } from 'Model';
-import { getCats } from 'API/cats';
 import Link from 'next/link';
 import { CatDetailDrawer } from '../../../../components/CatDetailDrawer';
 import { CreateCatDetailDrawer } from '@/components/CreateCatDetailDrawer';
 import enUS from 'antd/locale/en_US';
-
+import { StaffHeader } from '@/components/StaffHeader';
+import jwt_decode from 'jwt-decode';
+import { getCats } from 'API/staff';
 type GithubIssueItem = CatsModel;
 
 export default function Page () {
@@ -36,8 +33,15 @@ export default function Page () {
   const [open, setOpen] = useState(false);
   const [createCatOpen, setCreateCatOpen] = useState(false);
   const [selectId, setSelectId] = useState<string>('');
+  const [staffCentre, setStaffCentre] = useState<CentreEnum>();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const at = localStorage.getItem('access_token');
+    if (at) {
+      const data: any = jwt_decode(at);
+      setStaffCentre(data.centre);
+    }
+  }, []);
 
   const {
     token: { colorBgContainer },
@@ -103,11 +107,12 @@ export default function Page () {
     {
       title: 'Centre',
       dataIndex: 'centre',
-      filters: true,
-      onFilter: true,
-      ellipsis: true,
+      // filters: true,
+      // onFilter: true,
+      // ellipsis: true,
       valueType: 'select',
       valueEnum: CentreEnum,
+      hideInSearch: true,
     },
     {
       title: 'Adopted',
@@ -154,31 +159,7 @@ export default function Page () {
             <WebMenu path={path} />
           </Sider>
           <Layout>
-            <Header
-              style={{
-                padding: '0 2em',
-                background: colorBgContainer,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <div className=''>
-                <Breadcrumb
-                  items={[
-                    {
-                      title: <Link href={'/Staff'}>Home</Link>,
-                    },
-                    {
-                      title: 'Cat Manage',
-                    },
-                  ]}
-                />
-              </div>
-              <div>
-                <Avatar src={'/card_cat1.jpg'} size={'large'}></Avatar>
-              </div>
-            </Header>
+            <StaffHeader />
             <div style={{ margin: '0 16px' }}>
               <div
                 style={{
@@ -191,11 +172,13 @@ export default function Page () {
                   id={selectId}
                   _open={open}
                   _onClose={() => setOpen(false)}
+                  staffCentre={staffCentre!}
                 />
                 <CreateCatDetailDrawer
                   id={selectId}
                   _open={createCatOpen}
                   _onClose={() => setCreateCatOpen(false)}
+                  staffCentre={staffCentre!}
                 />
                 <ProTable<GithubIssueItem>
                   columns={columns}
@@ -209,7 +192,7 @@ export default function Page () {
                       name: params?.name,
                       gender: params?.gender,
                       breed: params?.breed,
-                      centre: params?.centre,
+                      centre: staffCentre,
                       adopted: params?.adopted,
                       page: params.current,
                       pageSize: params.pageSize,
@@ -267,7 +250,7 @@ export default function Page () {
                       icon={<PlusOutlined />}
                       onClick={() => {
                         // actionRef.current?.reload();
-                        setCreateCatOpen(true)
+                        setCreateCatOpen(true);
                       }}
                       type='primary'
                     >
@@ -279,7 +262,7 @@ export default function Page () {
             </div>
 
             <Footer style={{ textAlign: 'center' }}>
-            The Pet Shelter ©2023 Created by Moovoo
+              The Pet Shelter ©2023 Created by Moovoo
             </Footer>
           </Layout>
         </Layout>

@@ -7,6 +7,7 @@ import {
 } from 'Model';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { signOut } from 'next-auth/react';
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV == 'development'
@@ -54,7 +55,14 @@ export async function getToken () {
       !localStorage.getItem('refresh_token')
     ) {
       solved('null');
-      window.location.href = '/';
+      signOut()
+        .then(() => {
+          console.log('OK');
+        })
+        .catch(err => {
+          console.log('FAIL');
+        });
+      // window.location.href = '/';
     } else {
       if (!_isRefeshingToken) {
         _isRefeshingToken = true;
@@ -72,6 +80,13 @@ export async function getToken () {
               console.log(err);
             });
         } else {
+          signOut()
+            .then(() => {
+              console.log('OK');
+            })
+            .catch(err => {
+              console.log('FAIL');
+            });
           localStorage.clear();
         }
       } else {

@@ -9,8 +9,8 @@ import {
   ProFormDateTimePicker,
   ProFormRadio,
 } from '@ant-design/pro-components';
-import { createCats, getCats, updateCats } from 'API/cats';
-import { CatBreedEnum, CentreEnum } from 'Model';
+import { CreateNews, createCats } from 'API/staff';
+import { CatBreedEnum, CentreEnum, createCatsModel } from 'Model';
 import {
   Drawer,
   Tag,
@@ -29,7 +29,8 @@ export const CreateCatDetailDrawer: FC<{
   id: string;
   _open: boolean;
   _onClose: () => void;
-}> = ({ id, _open = false, _onClose }) => {
+  staffCentre: CentreEnum;
+}> = ({ id, _open = false, _onClose, staffCentre }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export const CreateCatDetailDrawer: FC<{
       >
         Create Cat Profile
       </h1>
-      <CatDetailForm id={id} onStart={open} />
+      <CatDetailForm id={id} onStart={open} staffCentre={staffCentre} />
     </Drawer>
   );
 };
@@ -64,10 +65,11 @@ interface CatOption {
   label: string;
 }
 
-const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
-  id,
-  onStart,
-}) => {
+const CatDetailForm: FC<{
+  id: string;
+  onStart: boolean;
+  staffCentre: CentreEnum;
+}> = ({ id, onStart, staffCentre }) => {
   const formRef = useRef<ProFormInstance>();
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
@@ -75,7 +77,6 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
       label: key,
     };
   });
-
   const centreOptions: CatOption[] = Object.keys(CentreEnum).map(key => {
     return {
       value: key,
@@ -169,9 +170,12 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
       //     console.log(err);
       //   });
     }
+    formRef?.current?.setFieldsValue({
+      centre: staffCentre,
+    });
   }, [onStart]);
   return (
-    <ProForm
+    <ProForm<createCatsModel>
       title='Cat Form'
       formRef={formRef}
       submitter={{
@@ -189,13 +193,26 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
         createCats([
           {
             ...values,
-            updatedTime: dayjs(),
+            updatedTime: dayjs().toString(),
             photo: uploadImageUrl,
           },
         ])
           .then(res => {
             message.success('Create successful');
-            console.log(res);
+            // console.log(res);
+            CreateNews({
+              catId: res.data._id,
+              catName: res.data.name,
+              catAbout: res.data.about,
+              catPhoto: res.data.photo,
+              time: dayjs().toString(),
+            })
+              .then(nRes => {
+                message.success('Create News successful');
+              })
+              .catch(nErr => {
+                message.warning('Create News fail');
+              });
           })
           .catch(err => {
             message.warning('Create failed');
@@ -278,11 +295,13 @@ const CatDetailForm: FC<{ id: string; onStart: boolean }> = ({
         ]}
       ></ProFormTextArea>
       <ProFormSelect
+        disabled
         width='md'
         name='centre'
         label='Cat Centre'
         options={centreOptions}
-        placeholder='Please input Cat Breed'
+        initialValue={staffCentre}
+        placeholder='Please input Cat Centre'
         rules={[
           {
             required: true,

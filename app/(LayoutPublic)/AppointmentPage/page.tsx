@@ -14,15 +14,25 @@ import {
   StepsForm,
 } from '@ant-design/pro-components';
 import { ConfigProvider, Form, message } from 'antd';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import enUS from 'antd/locale/en_US';
 import Balancer from 'react-wrap-balancer';
 import { CatCard } from '@/components/CatCard';
 import { Image } from 'antd';
 import { CentreEnum, GenderEnum } from 'Model';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
-export default function AppointmentPage () {
+export default function AppointmentPage ({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const formRef = useRef<ProFormInstance>();
+
+  useEffect(() => {
+    console.log(params.slug);
+  }, []);
 
   return (
     <ConfigProvider locale={enUS}>

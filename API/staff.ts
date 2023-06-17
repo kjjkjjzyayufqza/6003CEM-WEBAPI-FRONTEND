@@ -1,4 +1,4 @@
-import { CreateUserModel, StaffUserModel, customRes } from 'Model';
+import { CatsModel, CreateUserModel, NewsModel, StaffUserModel, createCatsModel, customRes, getCatsFilter, updateCatsModel } from 'Model';
 import axios from 'axios';
 import { getTokenStaff, refreshToken, refreshTokenStaff } from './auth';
 
@@ -60,4 +60,29 @@ export function Logout (): Promise<customRes<any>> {
 
 export function CreateAccount (args: CreateUserModel): Promise<customRes<any>> {
   return instance.post('auth/SignUp', args);
+}
+
+export function CreateNews (args: NewsModel): Promise<customRes<any>> {
+  return instance.post('news', args);
+}
+
+export function getCats (args: getCatsFilter): Promise<customRes<CatsModel[]>> {
+  return instance.get('cats', { params: args });
+}
+
+export function createCats (
+  args: createCatsModel[],
+): Promise<customRes<CatsModel>> {
+  return instance.post('cats', args);
+}
+
+export function updateCats (
+  id: string,
+  args: updateCatsModel,
+): Promise<customRes<CatsModel>> {
+  return instance.put('cats/' + id, args);
+}
+
+export function deleteCats (id: string): Promise<customRes<any>> {
+  return instance.delete('cats/' + id);
 }

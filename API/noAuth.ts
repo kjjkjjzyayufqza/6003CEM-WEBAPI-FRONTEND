@@ -1,8 +1,4 @@
-import {
-  CatsModel,
-  customRes,
-  getCatsFilter,
-} from 'Model';
+import { CatsModel, NewsModel, customRes, getCatsFilter } from 'Model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -40,4 +36,8 @@ export function getCatsPublic (
   args: getCatsFilter,
 ): Promise<customRes<CatsModel[]>> {
   return instance.get('cats', { params: args });
+}
+
+export function getNews (): Promise<customRes<NewsModel[]>> {
+  return instance.get('news');
 }
