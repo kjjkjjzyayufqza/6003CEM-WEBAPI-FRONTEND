@@ -8,8 +8,8 @@ import { io } from 'socket.io-client';
 export default function Page () {
   const [unreadMessagesCount, setUnreadMessagesCount] = React.useState(0);
 
-  const onHide = () => //console.log('Intercom did hide the Messenger');
-  const onShow = () => //console.log('Intercom did show the Messenger');
+  const onHide = () => console.log('Intercom did hide the Messenger');
+  const onShow = () => console.log('Intercom did show the Messenger');
   const onUnreadCountChange = (amount: number) => {
     //console.log('Intercom has a new unread message');
     setUnreadMessagesCount(amount);
