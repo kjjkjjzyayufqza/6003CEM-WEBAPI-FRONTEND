@@ -73,6 +73,17 @@ export const FilterBox: FC<{
               onFilter(values);
               // console.log(values.name);
             }}
+            onReset={async (values: any) => {
+              const emptyData: FilterBoxOption = {
+                name: undefined,
+                centre: undefined,
+                breed: undefined,
+                gender: undefined,
+                adopted: undefined,
+              };
+              onFilter(emptyData);
+              // console.log(values.name);
+            }}
           >
             <ProFormText
               width='md'

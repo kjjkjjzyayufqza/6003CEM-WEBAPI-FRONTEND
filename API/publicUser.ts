@@ -1,4 +1,5 @@
 import {
+  BookingModel,
   CreateUserModel,
   PublicUserModel,
   UpdateUserModel,
@@ -57,4 +58,8 @@ export function updateUserPublic (
 
 export function Logout (): Promise<customRes<any>> {
   return instance.get('auth/logout');
+}
+
+export function getCurrentBooking (): Promise<customRes<BookingModel[]>> {
+  return instance.get('userBooking/User');
 }

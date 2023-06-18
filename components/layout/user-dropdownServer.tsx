@@ -7,7 +7,11 @@ import Popover from '@/components/shared/popover';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from 'antd';
-import { HeartOutlined, HeartTwoTone } from '@ant-design/icons';
+import {
+  HeartOutlined,
+  HeartTwoTone,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
 import { getCurrentUserPublic } from 'API/publicUser';
 export default function UserDropdownServer () {
   const [openPopover, setOpenPopover] = useState(false);
@@ -43,6 +47,13 @@ export default function UserDropdownServer () {
             >
               <HeartOutlined className='h-4 w-4' />
               <p className='text-sm'>Favourites</p>
+            </Link>
+            <Link
+              href={'MemberPage/Booking'}
+              className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
+            >
+              <UnorderedListOutlined className='h-4 w-4' />
+              <p className='text-sm'>Booking</p>
             </Link>
             <button
               className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'

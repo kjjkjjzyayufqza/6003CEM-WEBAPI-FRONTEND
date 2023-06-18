@@ -26,6 +26,7 @@ export default function Page () {
     getfavouritesCat()
       .then(async res => {
         // console.log(res);
+        if(res.data)
         if (res.data.Favourites.length >= 1) {
           const promises = res.data.Favourites.map(id =>
             getCatsPublic({ id: id }),

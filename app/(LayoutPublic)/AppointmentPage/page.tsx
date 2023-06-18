@@ -32,7 +32,6 @@ export default function AppointmentPage ({ params }: { params: any }) {
   const [userData, setUserData] = useState<PublicUserModel>();
 
   useEffect(() => {
-    console.log(params);
     getCatsPublic({ id: params })
       .then(res => {
         if (res.data.data.length >= 1) {
@@ -42,7 +41,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
         }
       })
       .catch(err => {
-        console.log(err);
+        // //console.log(err);
         router.push('/');
       });
     getCurrentUserPublic()
@@ -50,7 +49,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
         setUserData(res.data);
       })
       .catch(err => {
-        console.log(err);
+        // //console.log(err);
       });
   }, []);
 
@@ -74,16 +73,17 @@ export default function AppointmentPage ({ params }: { params: any }) {
             <StepsForm<BookingModel>
               formRef={formRef}
               onFinish={async values => {
-                // console.log(values);
+                // //console.log(values);
+                values.userId = userData?._id!;
                 values.catId = catData?._id!;
                 createBooking(values)
                   .then(res => {
-                    // console.log('Done');
+                    // //console.log('Done');
                     message.success('Create Done');
                     router.push('/');
                   })
                   .catch(err => {
-                    console.log(err);
+                    //console.log(err);
                     message.warning('Create Fail');
                   });
               }}
@@ -102,7 +102,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
                     'Confirmation of basic information about the cat to be met',
                 }}
                 onFinish={async () => {
-                  console.log(formRef.current?.getFieldsValue());
+                  //console.log(formRef.current?.getFieldsValue());
                   return true;
                 }}
               >
@@ -153,7 +153,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
                     'Confirmation of basic information about the cat to be met',
                 }}
                 onFinish={async () => {
-                  console.log(formRef.current?.getFieldsValue());
+                  // //console.log(formRef.current?.getFieldsValue());
                   return true;
                 }}
               >
@@ -184,7 +184,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
                     'Please select the date you want to make an appointment, and please confirm the appointment center',
                 }}
                 onFinish={async value => {
-                  console.log(formRef.current?.getFieldsValue());
+                  // //console.log(formRef.current?.getFieldsValue());
                   return true;
                 }}
               >
@@ -262,6 +262,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
                     {
                       required: true,
                       message: 'Please input Phone',
+                      pattern: new RegExp('[0-9]'),
                     },
                     {
                       min: 8,

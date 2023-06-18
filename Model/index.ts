@@ -211,6 +211,7 @@ export interface NewsModel {
 }
 
 export interface BookingModel {
+  userId: string;
   name: string;
   email: string;
   phone: string;

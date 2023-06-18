@@ -153,7 +153,9 @@ export default function Page () {
                 {
                   required: true,
                   message: 'Please input your Phone!',
+                  pattern: new RegExp('[0-9]'),
                 },
+                
               ]}
             />
             <ProFormText.Password
