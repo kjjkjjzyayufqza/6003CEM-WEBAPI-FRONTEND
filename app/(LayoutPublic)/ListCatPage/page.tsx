@@ -1,13 +1,9 @@
 'use client';
-import { Card, Col, Pagination, Progress, Row, Tag } from 'antd';
-import Meta from 'antd/es/card/Meta';
+import { Pagination } from 'antd';
 import { useEffect, useState } from 'react';
-import { HeartTwoTone } from '@ant-design/icons';
 import { CatCard } from '@/components/CatCard';
 import { FilterBox, FilterBoxOption } from './FilterBox';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
-import { ProList } from '@ant-design/pro-components';
-import { getCats } from 'API/cats';
 import { CatsModel } from 'Model';
 import Balancer from 'react-wrap-balancer';
 import { getCatsPublic } from 'API/noAuth';
