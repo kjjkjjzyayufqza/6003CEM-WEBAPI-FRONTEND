@@ -163,9 +163,6 @@ export default function Page () {
               placeholder='Please input your Password'
               rules={[
                 {
-                  max: 8,
-                },
-                {
                   min: 8,
                 },
                 {
@@ -179,9 +176,6 @@ export default function Page () {
               label='Re-Password'
               placeholder='Please input your Re-Password'
               rules={[
-                {
-                  max: 8,
-                },
                 {
                   min: 8,
                 },

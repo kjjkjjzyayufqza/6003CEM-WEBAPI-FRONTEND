@@ -51,6 +51,10 @@ export const CatCard: FC<CatCardModel> = ({
               <HeartTwoTone
                 key='setting'
                 onClick={() => {
+                  if(!localStorage.getItem('access_token')){
+                    message.warning('You are not login')
+                    return
+                  }
                   getfavouritesCat()
                     .then(res => {
                       console.log(res);

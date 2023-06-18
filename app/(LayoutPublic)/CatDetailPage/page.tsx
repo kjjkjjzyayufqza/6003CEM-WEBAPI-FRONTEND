@@ -1,5 +1,5 @@
 'use client';
-import { Button, Col, Image, Row } from 'antd';
+import { Button, Col, Image, Row, message } from 'antd';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { HiOutlineIdentification } from 'react-icons/hi';
 import { FaBirthdayCake } from 'react-icons/fa';
@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { CatsModel } from 'Model';
 import dayjs from 'dayjs';
 import { getCatsPublic } from 'API/noAuth';
+import Balancer from 'react-wrap-balancer';
+import { useRouter } from 'next/navigation';
 export default function CatDetailPage ({
   params,
   searchParams,
@@ -20,6 +22,7 @@ export default function CatDetailPage ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const [data, setData] = useState<CatsModel>();
+  const router = useRouter()
   useEffect(() => {
     // console.log(params);
     if (params.slug) {
@@ -64,9 +67,9 @@ export default function CatDetailPage ({
                 <span className='text-3xl text-indigo-500'>{data?.name}</span> !
               </h2>
               <h2 className='card-title mb-1'>About Me</h2>
-              <p className='mt-1 block font-medium leading-tight text-slate-500'>
+              <Balancer className='mt-1 block font-medium leading-tight text-slate-500'>
                 {data?.about}
-              </p>
+              </Balancer>
               <Row className='py-5' gutter={[20, 20]}>
                 <Col span={12}>
                   <ColBox icon={'ID'} title={'No.'} text={data?._id ?? ''} />
@@ -112,15 +115,20 @@ export default function CatDetailPage ({
                   Visit our Adoption Center or call our attribution department
                   at 2232 5529 for more information!
                 </p>
-                <Link href={'AppointmentPage/' + params.slug}>
-                  <Button
-                    type={'primary'}
-                    className='mt-4'
-                    style={{ backgroundColor: '#ffffff' }}
-                  >
-                    <div className=' text-black'>Make an appointment</div>
-                  </Button>
-                </Link>
+                <Button
+                  type={'primary'}
+                  className='mt-4'
+                  style={{ backgroundColor: '#ffffff' }}
+                  onClick={() => {
+                    if (!localStorage.getItem('access_token')) {
+                      message.warning('You are not login');
+                      return;
+                    }
+                    router.push('AppointmentPage/' + params.slug);
+                  }}
+                >
+                  <div className=' text-black'>Make an appointment</div>
+                </Button>
               </div>
             </div>
           </div>
@@ -165,7 +173,7 @@ const ColBox: FC<ColBoxModel> = ({ icon, title, text }) => {
       <div className='mt-1'>{_icon}</div>
       <div>
         <div className='card-title'>{title}</div>
-        <div>{text}</div>
+        <Balancer>{text}</Balancer>
       </div>
     </div>
   );

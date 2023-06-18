@@ -43,6 +43,14 @@ export const FilterBox: FC<{
       label: key,
     };
   });
+
+  const adoptedOptions: CatOption[] = ['true', 'false'].map(key => {
+    return {
+      value: key,
+      label: key == 'true' ? 'Yes' : 'No',
+    };
+  });
+
   return (
     <ConfigProvider locale={enUS}>
       <StyleProvider hashPriority='high'>
@@ -104,23 +112,13 @@ export const FilterBox: FC<{
               placeholder='Please input Cat Breed'
             />
 
-            <ProFormRadio.Group
+            <ProFormSelect
               width='md'
               name='adopted'
               label='Adoption'
-              options={[
-                {
-                  label: 'Yes',
-                  value: true,
-                },
-                {
-                  label: 'No',
-                  value: false,
-                },
-              ]}
-              radioType='button'
+              options={adoptedOptions}
               placeholder='Please input Cat Adoption'
-            ></ProFormRadio.Group>
+            ></ProFormSelect>
           </QueryFilter>
         </Card>
       </StyleProvider>

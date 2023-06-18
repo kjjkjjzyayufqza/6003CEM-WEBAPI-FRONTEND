@@ -55,7 +55,11 @@ export default function ListCatPage () {
       <div className='w-full'>
         <FilterBox
           onFilter={(value: FilterBoxOption) => {
-            setFilter({ ...filter, ...value });
+            setFilter({
+              ...filter,
+              ...value,
+              adopted: value.adopted ?? false,
+            });
           }}
         />
       </div>
