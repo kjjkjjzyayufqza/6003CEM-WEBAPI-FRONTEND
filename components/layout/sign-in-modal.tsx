@@ -119,7 +119,7 @@ const CusLoginForm: FC<{
         let password = CryptoJS.SHA256(values.password).toString();
         await SignInPublic({ email: values.email, password: password })
           .then(res => {
-            console.log(res);
+            // console.log(res);
             message.success('Login successful');
             localStorage.setItem('access_token', res.data.accessToken);
             localStorage.setItem('refresh_token', res.data.refreshToken);

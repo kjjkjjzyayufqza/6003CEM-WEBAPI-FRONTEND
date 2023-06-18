@@ -3,23 +3,17 @@ import { StyleProvider } from '@ant-design/cssinjs';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   ProCard,
-  ProForm,
-  ProFormCheckbox,
   ProFormDatePicker,
-  ProFormDateRangePicker,
-  ProFormDigit,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-  ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-components';
-import { ConfigProvider, Form, message } from 'antd';
+import { ConfigProvider, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import enUS from 'antd/locale/en_US';
 import Balancer from 'react-wrap-balancer';
 import { CatCard } from '@/components/CatCard';
-import { Image } from 'antd';
 import {
   BookingModel,
   CatsModel,
@@ -28,9 +22,8 @@ import {
   PublicUserModel,
 } from 'Model';
 import { RouterBreadcrumb } from '@/components/RouterBreadcrumb';
-import { getCats } from 'API/staff';
 import { getCurrentUserPublic } from 'API/publicUser';
-import { createBooking } from 'API/noAuth';
+import { createBooking, getCatsPublic } from 'API/noAuth';
 import { useRouter } from 'next/navigation';
 export default function AppointmentPage ({ params }: { params: any }) {
   const formRef = useRef<ProFormInstance>();
@@ -40,7 +33,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
 
   useEffect(() => {
     console.log(params);
-    getCats({ id: params })
+    getCatsPublic({ id: params })
       .then(res => {
         if (res.data.length >= 1) {
           setCatData(res.data[0]);

@@ -1,4 +1,16 @@
-import { CatsModel, CreateUserModel, NewsModel, StaffUserModel, createCatsModel, customRes, getCatsFilter, updateCatsModel } from 'Model';
+import {
+  BookingModel,
+  CatsModel,
+  CentreEnum,
+  CreateUserModel,
+  NewsModel,
+  StaffUserModel,
+  UpdateStaffUserModel,
+  createCatsModel,
+  customRes,
+  getCatsFilter,
+  updateCatsModel,
+} from 'Model';
 import axios from 'axios';
 import { getTokenStaff, refreshToken, refreshTokenStaff } from './auth';
 
@@ -46,7 +58,8 @@ export function createUserBooking (data: any) {
 
 export function getAllUserBooking (args: {
   mobile?: string;
-}): Promise<customRes<any[]>> {
+  centre?: CentreEnum;
+}): Promise<customRes<BookingModel[]>> {
   return instance.get('userBooking', { params: args });
 }
 
@@ -72,7 +85,7 @@ export function getCats (args: getCatsFilter): Promise<customRes<CatsModel[]>> {
 
 export function createCats (
   args: createCatsModel[],
-): Promise<customRes<CatsModel>> {
+): Promise<customRes<CatsModel[]>> {
   return instance.post('cats', args);
 }
 
@@ -85,4 +98,10 @@ export function updateCats (
 
 export function deleteCats (id: string): Promise<customRes<any>> {
   return instance.delete('cats/' + id);
+}
+
+export function updateStaff (
+  args: UpdateStaffUserModel,
+): Promise<customRes<StaffUserModel>> {
+  return instance.put('staff-user', args);
 }

@@ -93,7 +93,13 @@ export interface StaffUserModel {
   _id: string;
   name: string;
   email: string;
+  centre: CentreEnum;
   role: string;
+}
+
+export interface UpdateStaffUserModel {
+  name: string;
+  password: string;
 }
 
 export interface PublicUserModel {

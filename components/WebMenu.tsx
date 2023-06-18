@@ -31,6 +31,7 @@ const items: MenuItem[] = [
   getItem('Home', '/Staff', <HomeOutlined />),
   getItem('Dashboard', '/Staff/Dashboard', <PieChartOutlined />),
   getItem('Cat Management', '/Staff/CatManagement', <OrderedListOutlined />),
+  getItem('Booking', '/Staff/BookingManagement', <OrderedListOutlined />),
   getItem('Account', '/Staff/Account', <UserOutlined />),
 ];
 

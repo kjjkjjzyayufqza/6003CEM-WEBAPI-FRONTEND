@@ -23,7 +23,6 @@ import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 import Balancer from 'react-wrap-balancer';
 import { getCurrentUserPublic, updateUserPublic } from 'API/publicUser';
-import { updateCats } from 'API/cats';
 import * as CryptoJS from 'crypto-js';
 
 export default function Page () {

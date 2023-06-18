@@ -1,4 +1,8 @@
-import { PlusOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  QuestionCircleFilled,
+  QuestionCircleTwoTone,
+} from '@ant-design/icons';
 import {
   ProFormInstance,
   ProForm,
@@ -20,10 +24,14 @@ import {
   Form,
   Upload,
   Divider,
+  Button,
 } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { FC, useState, useEffect, useRef } from 'react';
+
+import { AiFillQuestionCircle } from 'react-icons/ai';
+import { BreedDrawer } from './BreedDrawer';
 
 export const CreateCatDetailDrawer: FC<{
   id: string;
@@ -97,6 +105,8 @@ const CatDetailForm: FC<{
 
   const [progress, setProgress] = useState(0);
   const [uploadImageUrl, setUploadImageUrl] = useState<string>();
+  const [breedDrawer, setBreedDrawer] = useState(false);
+
   const uploadImage = async (options: any) => {
     const { onSuccess, onError, file, onProgress } = options;
 
@@ -201,10 +211,10 @@ const CatDetailForm: FC<{
             message.success('Create successful');
             // console.log(res);
             CreateNews({
-              catId: res.data._id,
-              catName: res.data.name,
-              catAbout: res.data.about,
-              catPhoto: res.data.photo,
+              catId: res.data[0]._id,
+              catName: res.data[0].name,
+              catAbout: res.data[0].about,
+              catPhoto: res.data[0].photo,
               time: dayjs().toString(),
             })
               .then(nRes => {
@@ -231,18 +241,30 @@ const CatDetailForm: FC<{
           },
         ]}
       />
-      <ProFormSelect
-        width='md'
-        name='breed'
-        label='Cat Breed'
-        options={breedOptions}
-        placeholder='Please input Cat Breed'
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      />
+      <div className='flex items-center'>
+        <ProFormSelect
+          width='md'
+          name='breed'
+          label='Cat Breed'
+          options={breedOptions}
+          placeholder='Please input Cat Breed'
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        />
+        <Button
+          className='ml-3'
+          shape={'round'}
+          icon={<QuestionCircleTwoTone />}
+          onClick={() => {
+            setBreedDrawer(true);
+          }}
+        >
+          What Breed ?
+        </Button>
+      </div>
       <ProFormSelect
         width='md'
         name='gender'
@@ -358,6 +380,12 @@ const CatDetailForm: FC<{
       <p className='mb-3'>
         When a cat is created, a news notification is created at the same time.
       </p>
+      <BreedDrawer
+        _open={breedDrawer}
+        _onClose={() => {
+          setBreedDrawer(false);
+        }}
+      />
     </ProForm>
   );
 };

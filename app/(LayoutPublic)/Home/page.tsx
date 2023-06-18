@@ -2,6 +2,7 @@
 import { HomeCard, HomeCardModel } from '@/components/home/card';
 import { Badge } from 'antd';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import { LuCat } from 'react-icons/lu';
 import Balancer from 'react-wrap-balancer';
 import { Autoplay, Navigation, Pagination } from 'swiper';
@@ -15,6 +16,8 @@ export default function HomePage () {
     '--swiper-navigation-color': '#fff',
     '--swiper-pagination-color': '#fff',
   };
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -72,7 +75,7 @@ export default function HomePage () {
             <img src={'/cat2.jpg'} alt={''} className='w-full'></img>
           </SwiperSlide>
           <SwiperSlide>
-            <img src={'/cat1.jpg'} alt={''} className='w-full'></img>
+            <img src={'/cat3.jpg'} alt={''} className='w-full'></img>
           </SwiperSlide>
         </Swiper>
       </div>
@@ -94,7 +97,7 @@ export default function HomePage () {
         >
           <a
             className='flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800'
-            href='https://github.com/steven-tey/precedent'
+            href='https://www.spca.org.hk/ch/'
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -206,6 +209,6 @@ const features: HomeCardModel[] = [
         ></Image>
       </>
     ),
-    path: 'ListCatPage',
+    path: 'About',
   },
 ];

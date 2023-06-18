@@ -23,7 +23,7 @@ export default function CatDetailPage ({
   useEffect(() => {
     // console.log(params);
     if (params.slug) {
-      console.log(params.slug);
+      // console.log(params.slug);
       getCatsPublic({ id: params.slug[0] })
         .then(res => {
           setData(res.data[0]);
