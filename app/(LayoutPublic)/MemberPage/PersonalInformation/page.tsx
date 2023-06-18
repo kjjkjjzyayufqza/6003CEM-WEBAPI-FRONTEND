@@ -35,7 +35,7 @@ export default function Page () {
                       },
                     }}
                     onFinish={async values => {
-                      console.log(values);
+                      //console.log(values);
                       message.success('提交成功');
                       return true;
                     }}

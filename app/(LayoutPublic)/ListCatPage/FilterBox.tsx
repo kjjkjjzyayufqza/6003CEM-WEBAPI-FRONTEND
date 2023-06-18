@@ -71,7 +71,7 @@ export const FilterBox: FC<{
             }}
             onFinish={async values => {
               onFilter(values);
-              // console.log(values.name);
+              // //console.log(values.name);
             }}
             onReset={async (values: any) => {
               const emptyData: FilterBoxOption = {
@@ -82,7 +82,7 @@ export const FilterBox: FC<{
                 adopted: undefined,
               };
               onFilter(emptyData);
-              // console.log(values.name);
+              // //console.log(values.name);
             }}
           >
             <ProFormText

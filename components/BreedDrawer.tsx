@@ -66,7 +66,7 @@ export const BreedDrawer: FC<{ _open: boolean; _onClose: () => void }> = ({
         style={{ width: 300 }}
         onChange={(_, e) => {
           setImageList([]);
-          console.log(e);
+          //console.log(e);
           axios
             .get(
               'https://api.thecatapi.com/v1/images/search?breed_ids=' +

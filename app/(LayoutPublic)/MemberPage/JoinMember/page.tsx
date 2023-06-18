@@ -35,7 +35,7 @@ export default function Page () {
             formRef={formRef}
             submitter={{}}
             onFinish={async values => {
-              // console.log(values);
+              // //console.log(values);
               if (values.rePassword != values.password) {
                 message.warning('Inconsistent passwords');
               } else {

@@ -90,7 +90,7 @@ export default function Page () {
                     },
                   }}
                   onFinish={async values => {
-                    console.log(values);
+                    //console.log(values);
                     const updateValue = {
                       name: values.name ?? undefined,
                       password:
@@ -100,12 +100,12 @@ export default function Page () {
                     };
                     updateStaff(updateValue)
                       .then(res => {
-                        console.log(res);
+                        //console.log(res);
                         message.success('Update Done');
                       })
                       .catch(err => {
                         message.warning('Update Fail');
-                        console.log(err);
+                        //console.log(err);
                       });
                     return true;
                   }}

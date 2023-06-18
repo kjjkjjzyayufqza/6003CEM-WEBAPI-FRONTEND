@@ -81,7 +81,7 @@ const CatDetailForm: FC<{
   const formRef = useRef<ProFormInstance>();
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
-      value: key,
+      value: key.replace(/([A-Z])/g, ' $1').trim(),
       label: key,
     };
   });
@@ -141,11 +141,11 @@ const CatDetailForm: FC<{
       );
 
       onSuccess('Ok');
-      console.log('server res: ', res.data.data.link);
+      //console.log('server res: ', res.data.data.link);
       setUploadImageUrl(res.data.data.link);
       message.success('Image uploaded successfully');
     } catch (err) {
-      console.log('Eroor: ', err);
+      //console.log('Eroor: ', err);
       const error = new Error('Some error');
       message.warning('Image uploaded Fail' + (err && err));
       onError({ err });
@@ -177,7 +177,7 @@ const CatDetailForm: FC<{
       //     });
       //   })
       //   .catch(err => {
-      //     console.log(err);
+      //     //console.log(err);
       //   });
     }
     formRef?.current?.setFieldsValue({
@@ -199,7 +199,7 @@ const CatDetailForm: FC<{
           message.warning('Photo Can not be null');
           return false;
         }
-        console.log(values);
+        //console.log(values);
         createCats([
           {
             ...values,
@@ -209,7 +209,7 @@ const CatDetailForm: FC<{
         ])
           .then(res => {
             message.success('Create successful');
-            // console.log(res);
+            // //console.log(res);
             CreateNews({
               catId: res.data[0]._id,
               catName: res.data[0].name,

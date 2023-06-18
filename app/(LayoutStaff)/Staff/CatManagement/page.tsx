@@ -186,7 +186,7 @@ export default function Page () {
                   cardBordered
                   rowKey='_id'
                   request={async (params, sort, filter) => {
-                    // console.log(params);
+                    // //console.log(params);
                     let data: GithubIssueItem[] = [];
                     let totalNumber: number = 0;
                     await getCatsPublic({
@@ -217,7 +217,7 @@ export default function Page () {
                     persistenceKey: 'pro-table-singe-demos',
                     persistenceType: 'localStorage',
                     onChange (value) {
-                      // console.log('value: ', value);
+                      // //console.log('value: ', value);
                     },
                   }}
                   search={{

@@ -119,7 +119,7 @@ const CusLoginForm: FC<{
         let password = CryptoJS.SHA256(values.password).toString();
         await SignInPublic({ email: values.email, password: password })
           .then(res => {
-            // console.log(res);
+            // //console.log(res);
             message.success('Login successful');
             localStorage.setItem('access_token', res.data.accessToken);
             localStorage.setItem('refresh_token', res.data.refreshToken);
@@ -133,7 +133,7 @@ const CusLoginForm: FC<{
             _setShowSignInModal(false);
           })
           .catch(err => {
-            console.log(err);
+            //console.log(err);
             message.warning('Login failed, please check account and password!');
             setLoading(false);
           });

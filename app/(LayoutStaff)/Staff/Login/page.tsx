@@ -41,13 +41,13 @@ export default function Page () {
             title='The Pet Shelter'
             subTitle='Staff Platform'
             onFinish={async value => {
-              console.log(value);
+              //console.log(value);
               SignInStaff({
                 email: value.email,
                 password: CryptoJS.SHA256(value.password).toString(),
               })
                 .then(res => {
-                  console.log(res);
+                  //console.log(res);
                   message.success('Login Done');
                   localStorage.setItem('access_token', res.data.accessToken);
                   localStorage.setItem('refresh_token', res.data.refreshToken);
@@ -60,7 +60,7 @@ export default function Page () {
                   router.push('/Staff');
                 })
                 .catch(err => {
-                  console.log(err);
+                  //console.log(err);
                   message.warning('Login Fail');
                 });
               return true;

@@ -44,7 +44,7 @@ let _pendingRefresh: any = [];
 
 export async function getToken () {
   return new Promise(async (solved, reject) => {
-    // console.log(localStorage.getItem('expire_date'), ' ', new Date().valueOf())
+    // //console.log(localStorage.getItem('expire_date'), ' ', new Date().valueOf())
     if (
       parseInt(localStorage.getItem('expire_date') || '0') >
       new Date().valueOf()
@@ -57,10 +57,10 @@ export async function getToken () {
       solved('null');
       signOut()
         .then(() => {
-          console.log('OK');
+          //console.log('OK');
         })
         .catch(err => {
-          console.log('FAIL');
+          //console.log('FAIL');
         });
       // window.location.href = '/';
     } else {
@@ -77,15 +77,15 @@ export async function getToken () {
               _pendingRefresh = [];
             })
             .catch(err => {
-              console.log(err);
+              //console.log(err);
             });
         } else {
           signOut()
             .then(() => {
-              console.log('OK');
+              //console.log('OK');
             })
             .catch(err => {
-              console.log('FAIL');
+              //console.log('FAIL');
             });
           localStorage.clear();
         }
@@ -111,7 +111,7 @@ export async function refreshToken () {
         ischeck = true;
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log(error);
       });
   }
   return ischeck;
@@ -124,7 +124,7 @@ let _pendingRefresh_Staff: any = [];
 
 export async function getTokenStaff () {
   return new Promise(async (solved, reject) => {
-    // console.log(localStorage.getItem('expire_date'), ' ', new Date().valueOf())
+    // //console.log(localStorage.getItem('expire_date'), ' ', new Date().valueOf())
     if (
       parseInt(localStorage.getItem('expire_date') || '0') >
       new Date().valueOf()
@@ -150,7 +150,7 @@ export async function getTokenStaff () {
               _pendingRefresh_Staff = [];
             })
             .catch(err => {
-              console.log(err);
+              //console.log(err);
             });
         } else {
           localStorage.clear();
@@ -177,7 +177,7 @@ export async function refreshTokenStaff () {
         ischeck = true;
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log(error);
       });
   }
   return ischeck;
@@ -198,7 +198,7 @@ export function SignInStaff (
 export function RegisterPublic (
   args: CreateUserModel,
 ): Promise<customRes<SignInResponseModel>> {
-  console.log(args);
+  //console.log(args);
   return instance.post('auth/RegisterPublic', args);
 }
 

@@ -24,15 +24,15 @@ export default function CatDetailPage ({
   const [data, setData] = useState<CatsModel>();
   const router = useRouter();
   useEffect(() => {
-    // console.log(params);
+    // //console.log(params);
     if (params.slug) {
-      // console.log(params.slug);
+      // //console.log(params.slug);
       getCatsPublic({ id: params.slug[0] })
         .then(res => {
           setData(res.data.data[0]);
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
         });
     }
   }, []);

@@ -8,14 +8,14 @@ import { io } from 'socket.io-client';
 export default function Page () {
   const [unreadMessagesCount, setUnreadMessagesCount] = React.useState(0);
 
-  const onHide = () => console.log('Intercom did hide the Messenger');
-  const onShow = () => console.log('Intercom did show the Messenger');
+  const onHide = () => //console.log('Intercom did hide the Messenger');
+  const onShow = () => //console.log('Intercom did show the Messenger');
   const onUnreadCountChange = (amount: number) => {
-    console.log('Intercom has a new unread message');
+    //console.log('Intercom has a new unread message');
     setUnreadMessagesCount(amount);
   };
   const onUserEmailSupplied = () => {
-    console.log('Visitor has entered email');
+    //console.log('Visitor has entered email');
   };
 
   return (
@@ -40,7 +40,7 @@ export default function Page () {
 //     const connectRoom = (id: string) => {
 //       const socket = io('http://localhost:3000?roomid=' + id);
 //       socket.on('connect', function () {
-//         console.log('链接成功');
+//         //console.log('链接成功');
 //         // 发射
 //         socket.emit('Chat', {
 //           name: 'client',
@@ -48,7 +48,7 @@ export default function Page () {
 //       });
 //       // 监听
 //       socket.on('Chat', data => {
-//         console.log('收到服务端信息 : ', data);
+//         //console.log('收到服务端信息 : ', data);
 //         setMessages(e => [...e, data]);
 //       });
 //     };

@@ -29,12 +29,12 @@ export default function ListCatPage () {
       adopted: filter?.adopted,
     })
       .then(res => {
-        // console.log(res.data);
+        // //console.log(res.data);
         setData(res.data.data);
         setTotal(res.data.totalNumber);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
   }, [filter]);
 

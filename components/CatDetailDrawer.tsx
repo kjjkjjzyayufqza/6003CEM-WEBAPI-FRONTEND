@@ -150,11 +150,11 @@ const CatDetailForm: FC<{
       );
 
       onSuccess('Ok');
-      console.log('server res: ', res.data.data.link);
+      //console.log('server res: ', res.data.data.link);
       setUploadImageUrl(res.data.data.link);
       message.success('Image uploaded successfully');
     } catch (err) {
-      console.log('Eroor: ', err);
+      //console.log('Eroor: ', err);
       const error = new Error('Some error');
       message.warning('Image uploaded Fail' + (err && err));
       onError({ err });
@@ -208,7 +208,7 @@ const CatDetailForm: FC<{
           });
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
         });
     }
   }, [onStart]);
@@ -233,7 +233,7 @@ const CatDetailForm: FC<{
         },
       }}
       onFinish={async values => {
-        console.log(values);
+        //console.log(values);
         updateCats(id, {
           ...values,
           updatedTime: dayjs(),
@@ -241,7 +241,7 @@ const CatDetailForm: FC<{
         })
           .then(res => {
             message.success('Update successful');
-            console.log(res);
+            //console.log(res);
           })
           .catch(err => {
             message.warning('Update failed');

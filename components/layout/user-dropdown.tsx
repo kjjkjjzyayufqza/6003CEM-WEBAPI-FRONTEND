@@ -13,7 +13,7 @@ import { HeartOutlined } from '@ant-design/icons';
 export default function UserDropdown ({ session }: { session: any }) {
   const { email, image } = session?.user || {};
   useEffect(() => {
-    // console.log(session);
+    // //console.log(session);
     if (email) {
       // messageApi.success('Login successful');
       if (
@@ -50,7 +50,7 @@ export default function UserDropdown ({ session }: { session: any }) {
             </Link>
             {/* <Button
               onClick={() => {
-                console.log(session);
+                //console.log(session);
               }}
             >
               test

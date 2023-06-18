@@ -40,7 +40,7 @@ export default function Page () {
             formRef={formRef}
             submitter={{}}
             onFinish={async values => {
-              console.log(values);
+              //console.log(values);
               if (values.password != values.rePassword) {
                 message.warning('Inconsistent passwords');
                 return false;
@@ -49,10 +49,10 @@ export default function Page () {
               RegisterStaff(values.code, { ...values, password })
                 .then(res => {
                   message.success('Register Done');
-                  // console.log(res.data);
+                  // //console.log(res.data);
                   SignInStaff({ email: values.email, password: password })
                     .then(siRes => {
-                      console.log(siRes.data);
+                      //console.log(siRes.data);
                       const expire_date: any = jwt_decode(res.data.accessToken);
                       localStorage.setItem(
                         'expire_date',
@@ -79,7 +79,7 @@ export default function Page () {
                   }
                   message.warning('Register Fail' + (messages && messages));
 
-                  console.log(err);
+                  //console.log(err);
                 });
               return true;
             }}

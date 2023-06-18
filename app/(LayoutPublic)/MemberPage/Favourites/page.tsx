@@ -25,7 +25,7 @@ export default function Page () {
   useEffect(() => {
     getfavouritesCat()
       .then(async res => {
-        // console.log(res);
+        // //console.log(res);
         if(res.data)
         if (res.data.Favourites.length >= 1) {
           const promises = res.data.Favourites.map(id =>
@@ -42,7 +42,7 @@ export default function Page () {
         }
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
     // getCatsPublic({id:})
   }, [refresh]);
@@ -73,14 +73,14 @@ export default function Page () {
               const output = Array.from(new Set(result));
               addfavouritesCat(output)
                 .then(res => {
-                  console.log(res);
+                  //console.log(res);
                   message.success('Remove Done');
                   setRefresh(e => !e);
                   setIsModalOpen(false);
                 })
                 .catch(err => {
                   message.success('Remove Fail');
-                  console.log(err);
+                  //console.log(err);
                 });
             }}
             onCancel={handleCancel}

@@ -34,11 +34,11 @@ export const StaffHeader: FC = () => {
   useEffect(() => {
     getCurrentUser()
       .then(res => {
-        // console.log(res.data);
+        // //console.log(res.data);
         setName(res.data.name);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
   }, []);
 

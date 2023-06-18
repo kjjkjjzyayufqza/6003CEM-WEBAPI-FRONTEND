@@ -152,7 +152,7 @@ export default function Page () {
                   cardBordered
                   rowKey='_id'
                   request={async (params, sort, filter) => {
-                    // console.log(params);
+                    // //console.log(params);
                     let data: any[] = [];
                     await getAllUserBooking({
                       mobile: params.phone,
@@ -176,7 +176,7 @@ export default function Page () {
                     persistenceKey: 'pro-table-singe-demos',
                     persistenceType: 'localStorage',
                     onChange (value) {
-                      // console.log('value: ', value);
+                      // //console.log('value: ', value);
                     },
                   }}
                   search={{

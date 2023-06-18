@@ -75,11 +75,11 @@ export default function Page () {
       );
 
       onSuccess('Ok');
-      console.log('server res: ', res.data.data.link);
+      //console.log('server res: ', res.data.data.link);
       setUploadImageUrl(res.data.data.link);
       message.success('Image uploaded successfully');
     } catch (err) {
-      console.log('Eroor: ', err);
+      //console.log('Eroor: ', err);
       const error = new Error('Some error');
       message.warning('Image uploaded Fail' + (err && err));
       onError({ err });
@@ -108,7 +108,7 @@ export default function Page () {
         });
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
   }, []);
 
@@ -135,7 +135,7 @@ export default function Page () {
             },
           }}
           onFinish={async values => {
-            console.log(values);
+            //console.log(values);
             values.email = undefined;
             if (values.password) {
               values.password = CryptoJS.SHA256(values.password).toString();
@@ -151,11 +151,11 @@ export default function Page () {
             updateUserPublic(values)
               .then(res => {
                 message.success("Update Done")
-                console.log(res.data);
+                //console.log(res.data);
               })
               .catch(err => {
                 message.success("Update Fail")
-                console.log(err);
+                //console.log(err);
               });
             return true;
           }}

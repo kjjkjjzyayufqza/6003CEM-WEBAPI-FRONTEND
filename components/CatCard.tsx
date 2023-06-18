@@ -57,7 +57,7 @@ export const CatCard: FC<CatCardModel> = ({
                   }
                   getfavouritesCat()
                     .then(res => {
-                      console.log(res);
+                      //console.log(res);
                       if (res.data) {
                         if (!res.data?.Favourites?.includes(id!)) {
                           const oldItem: string[] = [
@@ -69,10 +69,10 @@ export const CatCard: FC<CatCardModel> = ({
                               message.success(
                                 'Cats have been added to the Favorites list',
                               );
-                              console.log(adRes);
+                              //console.log(adRes);
                             })
                             .catch(adErr => {
-                              console.log(adErr);
+                              //console.log(adErr);
                             });
                         } else {
                           message.warning(
@@ -85,15 +85,15 @@ export const CatCard: FC<CatCardModel> = ({
                             message.success(
                               'Cats have been added to the Favorites list',
                             );
-                            console.log(adRes);
+                            //console.log(adRes);
                           })
                           .catch(adErr => {
-                            console.log(adErr);
+                            //console.log(adErr);
                           });
                       }
                     })
                     .catch(err => {
-                      console.log(err);
+                      //console.log(err);
                     });
                 }}
               />,

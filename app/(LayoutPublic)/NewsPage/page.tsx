@@ -11,11 +11,11 @@ export default function page () {
   useEffect(() => {
     getNews()
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setData(res.data);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
   }, []);
 

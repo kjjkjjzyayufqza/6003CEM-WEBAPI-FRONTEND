@@ -8,11 +8,11 @@ export default async function Home () {
   const onHide = () => console.log('Intercom did hide the Messenger');
   const onShow = () => console.log('Intercom did show the Messenger');
   const onUnreadCountChange = (amount: number) => {
-    console.log('Intercom has a new unread message');
+    //console.log('Intercom has a new unread message');
     setUnreadMessagesCount(amount);
   };
   const onUserEmailSupplied = () => {
-    console.log('Visitor has entered email');
+    //console.log('Visitor has entered email');
   };
   return (
     <>

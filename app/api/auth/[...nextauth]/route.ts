@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
         refresh_token = res.data.refreshToken;
         const _expire_date: any = jwt_decode(res.data.accessToken);
         expire_date = String(_expire_date.exp * 1000);
-        console.log('login_res', res);
+        //console.log('login_res', res);
         return true;
       } catch (err: any) {
         if (err.response?.data?.statusCode == 400) {
@@ -93,14 +93,14 @@ export const authOptions: NextAuthOptions = {
               password: password,
               gender: GenderEnum.Male,
             });
-            console.log('register_done', register_res);
+            //console.log('register_done', register_res);
             return true;
           } catch (register_err: any) {
-            console.log(register_err.response?.data);
+            //console.log(register_err.response?.data);
             return false;
           }
         } else {
-          console.log(err.response?.data);
+          //console.log(err.response?.data);
           return false;
         }
       }
