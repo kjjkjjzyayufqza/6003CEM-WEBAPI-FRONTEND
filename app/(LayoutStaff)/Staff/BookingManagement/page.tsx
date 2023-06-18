@@ -29,7 +29,7 @@ import { CreateCatDetailDrawer } from '@/components/CreateCatDetailDrawer';
 import enUS from 'antd/locale/en_US';
 import { StaffHeader } from '@/components/StaffHeader';
 import jwt_decode from 'jwt-decode';
-import { getAllUserBooking, getCats } from 'API/staff';
+import { getAllUserBooking} from 'API/staff';
 import dayjs from 'dayjs';
 type GithubIssueItem = BookingModel;
 

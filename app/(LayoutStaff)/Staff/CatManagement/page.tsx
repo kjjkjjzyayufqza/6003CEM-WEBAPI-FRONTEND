@@ -23,7 +23,7 @@ import { CreateCatDetailDrawer } from '@/components/CreateCatDetailDrawer';
 import enUS from 'antd/locale/en_US';
 import { StaffHeader } from '@/components/StaffHeader';
 import jwt_decode from 'jwt-decode';
-import { getCats } from 'API/staff';
+import { getCatsPublic } from 'API/noAuth';
 type GithubIssueItem = CatsModel;
 
 export default function Page () {
@@ -188,7 +188,8 @@ export default function Page () {
                   request={async (params, sort, filter) => {
                     // console.log(params);
                     let data: GithubIssueItem[] = [];
-                    await getCats({
+                    let totalNumber: number = 0;
+                    await getCatsPublic({
                       name: params?.name,
                       gender: params?.gender,
                       breed: params?.breed,
@@ -198,14 +199,15 @@ export default function Page () {
                       pageSize: params.pageSize,
                     })
                       .then(res => {
-                        data = res.data;
+                        data = res.data.data;
+                        totalNumber = res.data.totalNumber;
                       })
                       .catch(err => {});
 
                     return {
                       data: data,
                       success: true,
-                      total: 100,
+                      total: totalNumber,
                     };
                   }}
                   editable={{

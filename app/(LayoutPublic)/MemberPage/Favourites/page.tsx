@@ -32,7 +32,7 @@ export default function Page () {
           );
           const results = await Promise.all(promises);
           const dataResults: dataSourceModel[] = results.map(result => {
-            return { title: result.data[0].name, ...result.data[0] };
+            return { title: result.data.data[0].name, ...result.data.data[0] };
           });
           setDataSource(dataResults);
           //   return dataResults;

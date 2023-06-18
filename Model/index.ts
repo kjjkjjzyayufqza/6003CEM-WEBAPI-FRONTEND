@@ -72,6 +72,11 @@ export interface customRes<T> {
   statusCode: number;
 }
 
+export interface customListRes<T> {
+  data: T;
+  totalNumber: number;
+}
+
 export interface SignInModel {
   email: string;
   password: string;

@@ -79,10 +79,6 @@ export function CreateNews (args: NewsModel): Promise<customRes<any>> {
   return instance.post('news', args);
 }
 
-export function getCats (args: getCatsFilter): Promise<customRes<CatsModel[]>> {
-  return instance.get('cats', { params: args });
-}
-
 export function createCats (
   args: createCatsModel[],
 ): Promise<customRes<CatsModel[]>> {

@@ -22,14 +22,14 @@ export default function CatDetailPage ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const [data, setData] = useState<CatsModel>();
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     // console.log(params);
     if (params.slug) {
       // console.log(params.slug);
       getCatsPublic({ id: params.slug[0] })
         .then(res => {
-          setData(res.data[0]);
+          setData(res.data.data[0]);
         })
         .catch(err => {
           console.log(err);

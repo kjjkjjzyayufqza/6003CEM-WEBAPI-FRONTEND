@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
 import {
   ProFormInstance,
   ProForm,
@@ -9,7 +9,8 @@ import {
   ProFormDateTimePicker,
   ProFormRadio,
 } from '@ant-design/pro-components';
-import { deleteCats, getCats, updateCats } from 'API/staff';
+import { getCatsPublic } from 'API/noAuth';
+import { deleteCats, updateCats } from 'API/staff';
 import { CatBreedEnum, CentreEnum } from 'Model';
 import {
   Drawer,
@@ -26,6 +27,7 @@ import {
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { FC, useState, useEffect, useRef } from 'react';
+import { BreedDrawer } from './BreedDrawer';
 
 export const CatDetailDrawer: FC<{
   id: string;
@@ -111,7 +113,7 @@ const CatDetailForm: FC<{
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
-
+  const [breedDrawer, setBreedDrawer] = useState(false);
   const [progress, setProgress] = useState(0);
   const [uploadImageUrl, setUploadImageUrl] = useState<string>();
   const uploadImage = async (options: any) => {
@@ -183,26 +185,26 @@ const CatDetailForm: FC<{
 
   useEffect(() => {
     if (onStart) {
-      getCats({ id: id })
+      getCatsPublic({ id: id })
         .then(res => {
           setFileList([
             {
               uid: '-1',
               name: 'image.png',
               status: 'done',
-              url: res.data[0].photo,
+              url: res.data.data[0].photo,
             },
           ]);
           formRef?.current?.setFieldsValue({
-            name: res.data[0].name,
-            breed: res.data[0].breed,
-            gender: res.data[0].gender,
-            birthday: res.data[0].birthday,
-            photo: res.data[0].photo,
-            about: res.data[0].about,
+            name: res.data.data[0].name,
+            breed: res.data.data[0].breed,
+            gender: res.data.data[0].gender,
+            birthday: res.data.data[0].birthday,
+            photo: res.data.data[0].photo,
+            about: res.data.data[0].about,
             centre: staffCentre,
-            addedTime: res.data[0].addedTime,
-            adopted: res.data[0].adopted,
+            addedTime: res.data.data[0].addedTime,
+            adopted: res.data.data[0].adopted,
           });
         })
         .catch(err => {
@@ -266,18 +268,30 @@ const CatDetailForm: FC<{
           },
         ]}
       />
-      <ProFormSelect
-        width='md'
-        name='breed'
-        label='Cat Breed'
-        options={breedOptions}
-        placeholder='Please input Cat Breed'
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      />
+      <div className='flex items-center'>
+        <ProFormSelect
+          width='md'
+          name='breed'
+          label='Cat Breed'
+          options={breedOptions}
+          placeholder='Please input Cat Breed'
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        />
+        <Button
+          className='ml-3'
+          shape={'round'}
+          icon={<QuestionCircleTwoTone />}
+          onClick={() => {
+            setBreedDrawer(true);
+          }}
+        >
+          What Breed ?
+        </Button>
+      </div>
       <ProFormSelect
         width='md'
         name='gender'
@@ -389,6 +403,12 @@ const CatDetailForm: FC<{
           ]}
         ></ProFormDateTimePicker> */}
       <Divider />
+      <BreedDrawer
+        _open={breedDrawer}
+        _onClose={() => {
+          setBreedDrawer(false);
+        }}
+      />
     </ProForm>
   );
 };

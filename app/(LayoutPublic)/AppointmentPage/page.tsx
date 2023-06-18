@@ -35,8 +35,8 @@ export default function AppointmentPage ({ params }: { params: any }) {
     console.log(params);
     getCatsPublic({ id: params })
       .then(res => {
-        if (res.data.length >= 1) {
-          setCatData(res.data[0]);
+        if (res.data.data.length >= 1) {
+          setCatData(res.data.data[0]);
         } else {
           router.push('/');
         }

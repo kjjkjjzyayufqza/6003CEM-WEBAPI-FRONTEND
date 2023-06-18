@@ -18,6 +18,7 @@ export default function ListCatPage () {
     pageSize: 8,
   });
   const [data, setData] = useState<CatsModel[]>([]);
+  const [total, setTotal] = useState<number>(1);
   useEffect(() => {
     getCatsPublic({
       page: filter?.page,
@@ -29,7 +30,8 @@ export default function ListCatPage () {
     })
       .then(res => {
         // console.log(res.data);
-        setData(res.data);
+        setData(res.data.data);
+        setTotal(res.data.totalNumber);
       })
       .catch(err => {
         console.log(err);
@@ -84,7 +86,7 @@ export default function ListCatPage () {
             setFilter({ page: page, pageSize: pageSize });
           }}
           defaultCurrent={1}
-          total={500}
+          total={total}
           pageSize={filter?.pageSize}
           pageSizeOptions={[8, 16, 32, 64]}
         />

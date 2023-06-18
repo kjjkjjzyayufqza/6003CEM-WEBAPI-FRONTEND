@@ -2,6 +2,7 @@ import {
   BookingModel,
   CatsModel,
   NewsModel,
+  customListRes,
   customRes,
   getCatsFilter,
 } from 'Model';
@@ -40,7 +41,7 @@ instance.interceptors.response.use(
 
 export function getCatsPublic (
   args: getCatsFilter,
-): Promise<customRes<CatsModel[]>> {
+): Promise<customRes<customListRes<CatsModel[]>>> {
   return instance.get('cats', { params: args });
 }
 
