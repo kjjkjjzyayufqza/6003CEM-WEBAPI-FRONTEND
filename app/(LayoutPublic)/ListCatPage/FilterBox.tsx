@@ -32,8 +32,8 @@ export const FilterBox: FC<{
 }> = ({ onFilter }) => {
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
-      value: key,
-      label: key,
+      value: key.replace(/([A-Z])/g, ' $1').trim(),
+      label: key.replace(/([A-Z])/g, ' $1').trim(),
     };
   });
 
@@ -70,6 +70,7 @@ export const FilterBox: FC<{
               },
             }}
             onFinish={async values => {
+              console.log(values);
               onFilter(values);
               // //console.log(values.name);
             }}
@@ -82,7 +83,6 @@ export const FilterBox: FC<{
                 adopted: undefined,
               };
               onFilter(emptyData);
-              // //console.log(values.name);
             }}
           >
             <ProFormText

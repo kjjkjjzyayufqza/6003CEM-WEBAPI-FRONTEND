@@ -27,6 +27,7 @@ export default function ListCatPage () {
       breed: filter?.breed,
       gender: filter?.gender,
       adopted: filter?.adopted,
+      centre: filter?.centre,
     })
       .then(res => {
         // //console.log(res.data);

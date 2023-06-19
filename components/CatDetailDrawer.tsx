@@ -91,8 +91,8 @@ const CatDetailForm: FC<{
   const formRef = useRef<ProFormInstance>();
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
-      value: key,
-      label: key,
+      value: key.replace(/([A-Z])/g, ' $1').trim(),
+      label: key.replace(/([A-Z])/g, ' $1').trim(),
     };
   });
 

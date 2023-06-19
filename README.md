@@ -1,6 +1,6 @@
 <a href="https://6003-cem-webapi-frontend.vercel.app/">
   <img alt="Precedent – Building blocks for your Next project" src="public/screen0.png">
-  <h1 align="center">6003-CEM-WEBAPI PROJECT</h1>
+  <h1 align="center">6003-CEM-WEBAPI <br />FRONTEND PROJECT</h1>
 </a>
 
 <p align="center">

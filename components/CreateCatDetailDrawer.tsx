@@ -82,7 +82,7 @@ const CatDetailForm: FC<{
   const breedOptions: CatOption[] = Object.keys(CatBreedEnum).map(key => {
     return {
       value: key.replace(/([A-Z])/g, ' $1').trim(),
-      label: key,
+      label: key.replace(/([A-Z])/g, ' $1').trim(),
     };
   });
   const centreOptions: CatOption[] = Object.keys(CentreEnum).map(key => {
