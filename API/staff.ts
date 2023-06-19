@@ -7,6 +7,7 @@ import {
   StaffUserModel,
   UpdateStaffUserModel,
   createCatsModel,
+  customListRes,
   customRes,
   getCatsFilter,
   updateCatsModel,
@@ -59,7 +60,7 @@ export function createUserBooking (data: any) {
 export function getAllUserBooking (args: {
   mobile?: string;
   centre?: CentreEnum;
-}): Promise<customRes<BookingModel[]>> {
+}): Promise<customRes<customListRes<BookingModel[]>>> {
   return instance.get('userBooking', { params: args });
 }
 

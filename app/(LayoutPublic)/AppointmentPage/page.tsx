@@ -36,6 +36,9 @@ export default function AppointmentPage ({ params }: { params: any }) {
       .then(res => {
         if (res.data.data.length >= 1) {
           setCatData(res.data.data[0]);
+          formRef?.current?.setFieldsValue({
+            centre: res.data.data[0].centre,
+          });
         } else {
           router.push('/');
         }
@@ -71,7 +74,6 @@ export default function AppointmentPage ({ params }: { params: any }) {
           </h1>
           <ProCard>
             <StepsForm<BookingModel>
-              formRef={formRef}
               onFinish={async values => {
                 // ////console.log(values);
                 values.userId = userData?._id!;
@@ -177,6 +179,7 @@ export default function AppointmentPage ({ params }: { params: any }) {
                 </p>
               </StepsForm.StepForm>
               <StepsForm.StepForm<{}>
+                formRef={formRef}
                 name='checkbox'
                 title='Select date and confirmation center'
                 stepProps={{
@@ -188,12 +191,11 @@ export default function AppointmentPage ({ params }: { params: any }) {
                   return true;
                 }}
               >
-                <ProFormSelect<BookingModel>
+                <ProFormSelect
                   name='centre'
                   label='Centre'
                   width={'md'}
                   valueEnum={CentreEnum}
-                  initialValue={CentreEnum.KwunTong}
                   placeholder='Please select a centre'
                   rules={[
                     { required: true, message: 'Please select your centre!' },

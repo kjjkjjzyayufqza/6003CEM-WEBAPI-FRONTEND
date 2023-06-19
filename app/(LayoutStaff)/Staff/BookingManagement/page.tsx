@@ -29,7 +29,7 @@ import { CreateCatDetailDrawer } from '@/components/CreateCatDetailDrawer';
 import enUS from 'antd/locale/en_US';
 import { StaffHeader } from '@/components/StaffHeader';
 import jwt_decode from 'jwt-decode';
-import { getAllUserBooking} from 'API/staff';
+import { getAllUserBooking } from 'API/staff';
 import dayjs from 'dayjs';
 type GithubIssueItem = BookingModel;
 
@@ -153,20 +153,22 @@ export default function Page () {
                   rowKey='_id'
                   request={async (params, sort, filter) => {
                     // //console.log(params);
-                    let data: any[] = [];
+                    let data: BookingModel[] = [];
+                    let totalNumber: number = 1;
                     await getAllUserBooking({
                       mobile: params.phone,
                       centre: staffCentre,
                     })
                       .then(res => {
-                        data = res.data;
+                        data = res.data.data;
+                        totalNumber = res.data.totalNumber;
                       })
                       .catch(err => {});
 
                     return {
                       data: data,
                       success: true,
-                      total: 100,
+                      total: totalNumber,
                     };
                   }}
                   editable={{
