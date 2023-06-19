@@ -9,7 +9,7 @@ import { Session } from 'next-auth';
 import Link from 'next/link';
 import { Button, message } from 'antd';
 import jwt_decode from 'jwt-decode';
-import { HeartOutlined } from '@ant-design/icons';
+import { HeartOutlined, UnorderedListOutlined } from '@ant-design/icons';
 export default function UserDropdown ({ session }: { session: any }) {
   const { email, image } = session?.user || {};
   useEffect(() => {
@@ -61,6 +61,13 @@ export default function UserDropdown ({ session }: { session: any }) {
             >
               <HeartOutlined className='h-4 w-4' />
               <p className='text-sm'>Favourites</p>
+            </Link>{' '}
+            <Link
+              href={'MemberPage/Booking'}
+              className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
+            >
+              <UnorderedListOutlined className='h-4 w-4' />
+              <p className='text-sm'>Booking</p>
             </Link>
             <button
               className='relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100'
