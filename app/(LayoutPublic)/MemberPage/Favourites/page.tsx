@@ -25,22 +25,35 @@ export default function Page () {
   useEffect(() => {
     getfavouritesCat()
       .then(async res => {
-        // //console.log(res);
-        if(res.data)
-        if (res.data.Favourites.length >= 1) {
-          const promises = res.data.Favourites.map(id =>
-            getCatsPublic({ id: id }),
-          );
-          const results = await Promise.all(promises);
-          const dataResults: dataSourceModel[] = results.map(result => {
-            return { title: result.data.data[0].name, ...result.data.data[0] };
-          });
-          setDataSource(dataResults);
-          //   return dataResults;
-        } else {
-          setDataSource([]);
+        console.log(res.data.Favourites.length);
+        if (res.data) {
+          if (res.data.Favourites.length >= 1) {
+            const promises = res.data.Favourites.map(id =>
+              getCatsPublic({ id: id }),
+            );
+            const results = await Promise.all(promises);
+            const dataResults: dataSourceModel[] = results
+              .filter(result => result.data.data.length > 0)
+              .map(result => {
+                return {
+                  title: result.data.data[0].name,
+                  ...result.data.data[0],
+                };
+              });
+            console.log(
+              results.map(e => {
+                return e;
+              }),
+            );
+            console.log('here');
+            setDataSource(dataResults);
+            //   return dataResults;
+          } else {
+            setDataSource([]);
+          }
         }
       })
+
       .catch(err => {
         //console.log(err);
       });
