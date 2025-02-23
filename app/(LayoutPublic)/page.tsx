@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { IntercomProvider } from 'react-use-intercom';
 import HomePage from './Home/page';
-export default async function Home () {
+export default function Home () {
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
 
   const onHide = () => console.log('Intercom did hide the Messenger');
