@@ -8,7 +8,6 @@ import { Header, Footer } from 'antd/es/layout/layout';
 import { usePathname, useRouter } from 'next/navigation';
 import WebMenu from '@/components/WebMenu';
 import { StaffHeader } from '@/components/StaffHeader';
-import ReactECharts from 'echarts-for-react';
 export default function Page () {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
@@ -90,10 +89,10 @@ export default function Page () {
                   background: colorBgContainer,
                 }}
               >
-                <ReactECharts
+                {/* <ReactECharts
                   option={option}
                   style={{ height: 400, width: '80%' }}
-                />
+                /> */}
               </div>
             </div>
             <Footer style={{ textAlign: 'center' }}>
